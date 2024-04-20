@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 10:00:47 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/20 10:01:27 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/20 11:28:51 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*ft_strdup(char *s1, t_block_memory **garbage)
 	return (str);
 }
 
-static void	ft_putchar_fd(char c, int fd)
+void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, 1);
 }

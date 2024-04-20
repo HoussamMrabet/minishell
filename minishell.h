@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/20 09:59:53 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/20 14:21:09 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@
 # include <sys/ioctl.h>
 # include <termcap.h>
 # include <paths.h>
+# include <stdio.h>
+
+# define TRUE 1
+# define FALSE 0
+
+typedef int	t_bool;
 
 typedef struct s_tokenizer
 {
@@ -41,6 +47,7 @@ typedef struct s_tokenizer
 typedef struct s_minishell
 {
 	char			**env;
+	char			**paths;
 	t_block_memory	*garbage;
 }	t_minishell;
 
@@ -49,13 +56,23 @@ size_t	ft_strlen(const char *s);
 size_t	ft_arrlen(char **arr);
 char	*ft_strjoin(char *s1, char *s2, t_block_memory **garbage);
 char	*ft_strdup(char *s1, t_block_memory **garbage);
+char	*ft_substr(char *s, unsigned int start, size_t len);
+void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
+t_bool	is_equal(char *str1, char *str2);
+void	ft_exit(char *msg, int status, t_block_memory **garbage);
+char	**ft_split(const char *s, char c, t_block_memory **garbage);
 
 // env
 void	init_default_env(t_minishell *minishell, char **env);
 void	init_custom_env(t_minishell *minishell);
+char	*get_env_value(t_minishell *minishell, char *str);
 
 // signals
 void	handle_sigint(int signal);
+
+// init data
+void	init_data(t_minishell *minishell, char **env);
+char	**splitpaths(char *s, char c, t_block_memory **garbage);
 
 #endif

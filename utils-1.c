@@ -6,11 +6,39 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 08:10:38 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/20 10:01:30 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/20 11:31:13 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_substr(char *s, unsigned int start, size_t len)
+{
+	char	*res;
+	size_t	i;
+
+	if (!s)
+		return (NULL);
+	if (start > ft_strlen(s))
+	{
+		res = (char *)malloc(1);
+		if (!res)
+			return (NULL);
+		return (res[0] = '\0', res);
+	}
+	if (len > ft_strlen(s + start))
+		len = ft_strlen(s + start);
+	res = (char *)malloc(sizeof(char) * (len + 1));
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (i < len && *(s + start + i))
+	{
+		*(res + i) = *(s + start + i);
+		i++;
+	}
+	return (*(res + i) = '\0', res);
+}
 
 size_t	ft_arrlen(char **arr)
 {
@@ -22,4 +50,29 @@ size_t	ft_arrlen(char **arr)
 	while (arr && arr[i])
 		i++;
 	return (i);
+}
+
+t_bool	is_equal(char *str1, char *str2)
+{
+	int	i;
+
+	i = 0;
+	while (str1[i] || str2[i])
+	{
+		if (str1[i] != str2[i])
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
+
+void	ft_exit(char *msg, int status, t_block_memory **garbage)
+{
+	if (msg)
+	{
+		ft_putstr_fd("Allocation error", 2);
+		ft_putchar_fd('\n', 1);
+	}
+	ft_free(garbage);
+	exit(status);
 }

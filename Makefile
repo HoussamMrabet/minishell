@@ -6,7 +6,7 @@
 #    By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/04 16:56:33 by hmrabet           #+#    #+#              #
-#    Updated: 2024/04/20 10:11:44 by hmrabet          ###   ########.fr        #
+#    Updated: 2024/04/20 14:00:01 by hmrabet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 BONUS = minishell_bonus
 
-SRCS = main.c heap.c utils-0.c utils-1.c env.c signals.c
+SRCS = main.c heap.c utils-0.c utils-1.c env.c signals.c init_data.c splitpaths.c
 OBJS = $(SRCS:.c=.o)
 
 CC = cc -Wall -Wextra -Werror
