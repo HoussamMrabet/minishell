@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 09:53:45 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/20 15:36:49 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/20 17:47:45 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	init_custom_env(t_minishell *minishell)
 	free(cwd);
 	minishell->env[3] = ft_strjoin("SHLVL=", "1", &minishell->garbage);
 	minishell->env[4] = NULL;
-	if (!cwd || minishell->env[0] || !minishell->env[1] || !minishell->env[2]
+	if (!minishell->env[0] || !minishell->env[1] || !minishell->env[2]
 		|| !minishell->env[3] || !minishell->env)
 		ft_exit("Allocation error", 1, &minishell->garbage);
 }

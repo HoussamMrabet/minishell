@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 08:10:38 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/20 15:13:22 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/20 17:24:09 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	ft_exit(char *msg, int status, t_block_memory **garbage)
 {
 	if (msg)
 	{
-		ft_putstr_fd("Allocation error", 2);
+		ft_putstr_fd(msg, 2);
 		ft_putchar_fd('\n', 1);
 	}
 	ft_free(garbage);

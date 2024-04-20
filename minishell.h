@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/20 15:22:07 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/20 17:06:22 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_minishell
 	char			**env;
 	char			**paths;
 	int				shell_level;
+	int				exit_status;
 	t_block_memory	*garbage;
 }	t_minishell;
 
@@ -63,7 +64,7 @@ void	ft_putstr_fd(char *s, int fd);
 t_bool	is_equal(char *str1, char *str2);
 void	ft_exit(char *msg, int status, t_block_memory **garbage);
 int		ft_atoi(char *str);
-char	*ft_itoa(int n, t_block_memory **garbage);
+char	*ft_itoa(int n);
 size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
 size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 

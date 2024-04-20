@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 10:18:07 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/20 15:32:33 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/20 17:24:46 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,19 @@ static void	ft_get_level(t_minishell *minishell)
 	lvl = ft_atoi(tmp);
 	free(tmp);
 	lvl++;
-	tmp = ft_itoa(lvl, &minishell->garbage);
+	tmp = ft_itoa(lvl);
 	if (!tmp)
 		ft_exit("Allocation error", 1, &minishell->garbage);
 	set_env_value(minishell, "SHLVL", tmp);
 	minishell->shell_level = lvl;
+	free(tmp);
 }
 
 void	init_data(t_minishell *minishell, char **env)
 {
 	minishell->garbage = NULL;
 	minishell->env = NULL;
+	env = NULL;
 	if (!env || !*env)
 		init_custom_env(minishell);
 	else
