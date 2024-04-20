@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:55:49 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/15 08:07:09 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/20 09:58:31 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,11 @@ void	ft_free(t_block_memory **memory)
 	to_free = *memory;
 	while (to_free)
 	{
+		write(1, "pass\n", 5);
 		to_hold = to_free->next;
 		free(to_free->leak);
+		write(1, "pass\n", 5);
 		free(to_free);
-		to_free = to_hold;	
+		to_free = to_hold;
 	}
 }

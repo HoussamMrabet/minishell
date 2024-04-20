@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heap.h                                             :+:      :+:    :+:   */
+/*   utils-1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 15:55:46 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/20 08:56:28 by hmrabet          ###   ########.fr       */
+/*   Created: 2024/04/20 08:10:38 by hmrabet           #+#    #+#             */
+/*   Updated: 2024/04/20 10:01:30 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEAP_H
-# define HEAP_H
+#include "minishell.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-
-typedef struct s_block_memory
+size_t	ft_arrlen(char **arr)
 {
-	void					*leak;
-	struct s_block_memory	*next;
-}	t_block_memory;
+	size_t	i;
 
-void	*ft_malloc(t_block_memory **memory, size_t size);
-void	ft_free(t_block_memory **memory);
-
-#endif
+	if (!arr[0])
+		return (0);
+	i = 0;
+	while (arr && arr[i])
+		i++;
+	return (i);
+}
