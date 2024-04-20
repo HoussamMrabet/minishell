@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 08:10:38 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/20 11:31:13 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/20 15:13:22 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,32 @@ t_bool	is_equal(char *str1, char *str2)
 		i++;
 	}
 	return (TRUE);
+}
+
+int	ft_atoi(char *str)
+{
+	int		i;
+	long	res;
+	int		sign;
+
+	i = 0;
+	res = 0;
+	sign = 1;
+	while (*(str + i) && (*(str + i) == ' '
+			|| (*(str + i) >= 9 && *(str + i) <= 13)))
+		i++;
+	if (*(str + i) == '+' || *(str + i) == '-')
+	{
+		if (*(str + i) == '-')
+			sign = -sign;
+		i++;
+	}
+	while (*(str + i) >= '0' && *(str + i) <= '9')
+	{
+		res = res * 10 + *(str + i) - 48;
+		i++;
+	}
+	return (sign * (int)res);
 }
 
 void	ft_exit(char *msg, int status, t_block_memory **garbage)

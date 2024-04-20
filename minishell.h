@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/20 14:21:09 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/20 15:22:07 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_minishell
 {
 	char			**env;
 	char			**paths;
+	int				shell_level;
 	t_block_memory	*garbage;
 }	t_minishell;
 
@@ -61,11 +62,15 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 t_bool	is_equal(char *str1, char *str2);
 void	ft_exit(char *msg, int status, t_block_memory **garbage);
-char	**ft_split(const char *s, char c, t_block_memory **garbage);
+int		ft_atoi(char *str);
+char	*ft_itoa(int n, t_block_memory **garbage);
+size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
+size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 
 // env
 void	init_default_env(t_minishell *minishell, char **env);
 void	init_custom_env(t_minishell *minishell);
+void	set_env_value(t_minishell *minishell, char *env, char *value);
 char	*get_env_value(t_minishell *minishell, char *str);
 
 // signals
