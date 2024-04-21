@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/21 12:51:47 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/21 17:39:45 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,14 @@ char	**splitpaths(char *s, char c, t_block_memory **garbage);
 
 // lexer
 void	lexer(t_minishell *minishell, char *input);
+void	handle_commands(t_minishell *m, t_tokenizer **t, char *s, int *i);
+void	handle_single_quotes(t_minishell *s, t_tokenizer **t, char *n, int *i);
+void	handle_double_quotes(t_minishell *m, t_tokenizer **t, char *s, int *i);
+void	handle_red_and_del(t_minishell *m, t_tokenizer **t, char *s, int *i);
+void	handle_pipe_or_sign(t_minishell *m, t_tokenizer **t, char *s, int *i);
+void	handle_and_sign(t_minishell *m, t_tokenizer **t, char *s, int *i);
+void	handle_spaces(t_minishell *m, t_tokenizer **t, char *s, int *i);
+void	add_token(t_tokenizer **tokens, t_tokenizer *new);
+void	free_tokens(t_tokenizer **tokens);
 
 #endif
