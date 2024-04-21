@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/20 17:06:22 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/21 12:51:47 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,18 @@
 # define TRUE 1
 # define FALSE 0
 
+# define TEXT 1
+# define PIPE 2
+# define OR 3
+# define AND 4
+# define IN_RED 5
+# define OUT_RED 6
+# define DELIMITER 7
+# define APPEND 8
+# define SPACES 9
+# define S_QUOTE 10
+# define D_QUOTE 11
+
 typedef int	t_bool;
 
 typedef struct s_tokenizer
@@ -50,6 +62,7 @@ typedef struct s_minishell
 	char			**paths;
 	int				shell_level;
 	int				exit_status;
+	t_tokenizer		*tokens;
 	t_block_memory	*garbage;
 }	t_minishell;
 
@@ -80,5 +93,8 @@ void	handle_sigint(int signal);
 // init data
 void	init_data(t_minishell *minishell, char **env);
 char	**splitpaths(char *s, char c, t_block_memory **garbage);
+
+// lexer
+void	lexer(t_minishell *minishell, char *input);
 
 #endif

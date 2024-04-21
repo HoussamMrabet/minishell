@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:51:44 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/20 17:51:32 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/21 12:54:29 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int argc, char **argv, char **env)
 	char		*input;
 	t_minishell	minishell;
 
-	atexit(leaks);
+	// atexit(leaks);
 	(1) && (argc = 0, argv = NULL, input = NULL, rl_catch_signals = 0);
 	init_data(&minishell, env);
 	signal(SIGQUIT, SIG_IGN);
@@ -35,11 +35,14 @@ int	main(int argc, char **argv, char **env)
 		{
 			write(1, "exit\n", 6);
 			rl_clear_history();
-			break ;
+			free(input);
+			ft_free(&minishell.garbage);
+			exit(minishell.exit_status);
 		}
 		if (*input)
+		{
 			add_history(input);
+			lexer(&minishell, input);
+		}
 	}
-	free(input);
-	ft_free(&minishell.garbage);
 }
