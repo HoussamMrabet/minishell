@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:51:44 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/22 10:16:41 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/22 15:25:35 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ int	main(int argc, char **argv, char **env)
 {
 	char		*input;
 	t_minishell	minishell;
-	t_tokenizer *tmp;
+	t_tokenizer	*tmp;
 
-	// atexit(leaks);
 	(1) && (argc = 0, argv = NULL, input = NULL, rl_catch_signals = 0);
 	init_data(&minishell, env);
 	signal(SIGQUIT, SIG_IGN);
@@ -57,5 +56,4 @@ int	main(int argc, char **argv, char **env)
 			}
 		}
 	}
-
 }

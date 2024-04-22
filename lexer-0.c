@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 11:31:22 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/22 11:12:05 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/22 14:29:43 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	add_token(t_tokenizer **tokens, t_tokenizer *new)
 static t_bool	check_content(char *input, int i)
 {
 	t_bool	is_empty;
-	
+
 	is_empty = TRUE;
 	while (input[++i])
 	{
@@ -79,7 +79,8 @@ static t_bool	format_invalid(char *input)
 			else if (!q[0] && !q[1])
 				q[1] = TRUE;
 		}
-		(input[i[1]] == '(' && !q[0] && !q[1]) && (i[0]++, i[2] = check_content(input, i[1]));
+		(input[i[1]] == '(' && !q[0] && !q[1])
+			&& (i[0]++, i[2] = check_content(input, i[1]));
 		(input[i[1]] == ')' && !q[0] && !q[1]) && (i[0]--);
 	}
 	return (q[0] || q[1] || i[0] || i[2]);
