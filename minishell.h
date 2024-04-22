@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/21 17:39:45 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/22 10:20:21 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@
 # define SPACES 9
 # define S_QUOTE 10
 # define D_QUOTE 11
+# define PARENTHESE 12
 
 typedef int	t_bool;
 
@@ -95,11 +96,13 @@ void	init_data(t_minishell *minishell, char **env);
 char	**splitpaths(char *s, char c, t_block_memory **garbage);
 
 // lexer
-void	lexer(t_minishell *minishell, char *input);
+int		lexer(t_minishell *minishell, char *input);
+int		syntax_invalid(char *input);
 void	handle_commands(t_minishell *m, t_tokenizer **t, char *s, int *i);
 void	handle_single_quotes(t_minishell *s, t_tokenizer **t, char *n, int *i);
 void	handle_double_quotes(t_minishell *m, t_tokenizer **t, char *s, int *i);
 void	handle_red_and_del(t_minishell *m, t_tokenizer **t, char *s, int *i);
+void	handle_paranthese(t_minishell *m, t_tokenizer **t, char *s, int *i);
 void	handle_pipe_or_sign(t_minishell *m, t_tokenizer **t, char *s, int *i);
 void	handle_and_sign(t_minishell *m, t_tokenizer **t, char *s, int *i);
 void	handle_spaces(t_minishell *m, t_tokenizer **t, char *s, int *i);

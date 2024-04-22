@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:51:44 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/21 12:54:29 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/22 10:16:41 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	main(int argc, char **argv, char **env)
 {
 	char		*input;
 	t_minishell	minishell;
+	t_tokenizer *tmp;
 
 	// atexit(leaks);
 	(1) && (argc = 0, argv = NULL, input = NULL, rl_catch_signals = 0);
@@ -42,7 +43,19 @@ int	main(int argc, char **argv, char **env)
 		if (*input)
 		{
 			add_history(input);
-			lexer(&minishell, input);
+			if (lexer(&minishell, input))
+			{
+				minishell.exit_status = 258;
+				ft_putstr_fd("Syntax error !\n", 2);
+				continue ;
+			}
+			tmp = minishell.tokens;
+			while (tmp)
+			{
+				printf("|token : %s -> type : %d|\n", tmp->token, tmp->type);
+				tmp = tmp->next;
+			}
 		}
 	}
+
 }

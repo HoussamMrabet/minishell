@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 11:31:22 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/21 17:39:37 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/22 11:12:05 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,66 +42,74 @@ void	add_token(t_tokenizer **tokens, t_tokenizer *new)
 	}
 }
 
-void	handle_double_quotes(t_minishell *m, t_tokenizer **t, char *s, int *i)
+static t_bool	check_content(char *input, int i)
 {
-	t_tokenizer	*new;
-	int			j;
-	int			k;
-
-	(1) && (j = 1, k = 0, new = malloc(sizeof(t_tokenizer)));
-	if (!new)
+	t_bool	is_empty;
+	
+	is_empty = TRUE;
+	while (input[++i])
 	{
-		free_tokens(t);
-		ft_exit("Allocation error", 1, &m->garbage);
+		if (input[i] == ')')
+			break ;
+		if (input[i] != ' ' && input[i] != '\t')
+			is_empty = FALSE;
 	}
-	while (s[*i + j] && s[*i + j] != '"')
-		j++;
-	if (s[*i + j] == '"')
-		j++;
-	(1) && (new->token = malloc(j + 1), new->type = D_QUOTE, new->next = NULL);
-	if (!new->token)
-	{
-		free(new);
-		free_tokens(t);
-		ft_exit("Allocation error", 1, &m->garbage);
-	}
-	while (k < j)
-		(1) && (new->token[k] = s[*i], k++, (*i)++);
-	(1) && ((*i)--, new->token[k] = '\0');
-	add_token(t, new);
+	return (is_empty);
 }
 
-void	lexer(t_minishell *minishell, char *input)
+static t_bool	format_invalid(char *input)
+{
+	t_bool	q[2];
+	int		i[3];
+
+	(1) && (i[2] = 0, q[0] = FALSE, q[1] = FALSE, i[0] = 0, i[1] = -1);
+	while (input[++i[1]])
+	{
+		if (input[i[1]] == '\'')
+		{
+			if (q[0])
+				q[0] = FALSE;
+			else if (!q[0] && !q[1])
+				q[0] = TRUE;
+		}
+		else if (input[i[1]] == '"')
+		{
+			if (q[1])
+				q[1] = FALSE;
+			else if (!q[0] && !q[1])
+				q[1] = TRUE;
+		}
+		(input[i[1]] == '(' && !q[0] && !q[1]) && (i[0]++, i[2] = check_content(input, i[1]));
+		(input[i[1]] == ')' && !q[0] && !q[1]) && (i[0]--);
+	}
+	return (q[0] || q[1] || i[0] || i[2]);
+}
+
+int	lexer(t_minishell *minishell, char *input)
 {
 	int			i;
-	t_tokenizer	*tokens;
-	t_tokenizer	*tmp;
 
-	i = 0;
-	tokens = NULL;
-	minishell->tokens = tokens;
-	while (input[i])
+	(1) && (i = -1, minishell->tokens = NULL);
+	if (format_invalid(input) || syntax_invalid(input))
+		return (1);
+	while (input[++i])
 	{
 		if (input[i] == '\'')
-			handle_single_quotes(minishell, &tokens, input, &i);
+			handle_single_quotes(minishell, &minishell->tokens, input, &i);
 		else if (input[i] == '"')
-			handle_double_quotes(minishell, &tokens, input, &i);
+			handle_double_quotes(minishell, &minishell->tokens, input, &i);
 		else if (input[i] == '<' || input[i] == '>')
-			handle_red_and_del(minishell, &tokens, input, &i);
+			handle_red_and_del(minishell, &minishell->tokens, input, &i);
 		else if (input[i] == '|')
-			handle_pipe_or_sign(minishell, &tokens, input, &i);
+			handle_pipe_or_sign(minishell, &minishell->tokens, input, &i);
 		else if (input[i] == '&' && input[i + 1] == '&')
-			handle_and_sign(minishell, &tokens, input, &i);
+			handle_and_sign(minishell, &minishell->tokens, input, &i);
 		else if (input[i] == ' ' || input[i] == '\t')
-			handle_spaces(minishell, &tokens, input, &i);
+			handle_spaces(minishell, &minishell->tokens, input, &i);
+		else if (input[i] == '(' || input[i] == ')')
+			handle_paranthese(minishell, &minishell->tokens, input, &i);
 		else
-			handle_commands(minishell, &tokens, input, &i);
-		i++;
+			handle_commands(minishell, &minishell->tokens, input, &i);
 	}
-	tmp = tokens;
-	while (tmp)
-	{
-		printf("|token : %s -> type : %d|\n", tmp->token, tmp->type);
-		tmp = tmp->next;
-	}
+	return (0);
 }
