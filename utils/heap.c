@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:55:49 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/20 11:31:37 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/23 15:37:43 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,5 @@ void	ft_free(t_block_memory **memory)
 		free(to_free);
 		to_free = to_hold;
 	}
+	*memory = NULL;
 }

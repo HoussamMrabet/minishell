@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 15:14:24 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/20 16:11:26 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/23 15:33:30 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static size_t	ft_tenpow(size_t n)
 	return (ten);
 }
 
-char	*ft_itoa(int n)
+char	*ft_itoa(t_block_memory **garbage, int n)
 {
 	size_t	len;
 	size_t	i;
@@ -57,7 +57,7 @@ char	*ft_itoa(int n)
 	char	*res;
 
 	len = count_length(n);
-	res = (char *)malloc(len + 1);
+	res = (char *)ft_malloc(garbage, len + 1);
 	if (!res)
 		return (NULL);
 	nb = n;

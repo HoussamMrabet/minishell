@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/22 10:20:21 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/23 18:22:28 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@
 # define D_QUOTE 11
 # define PARENTHESE 12
 
+# define CMD 0
+# define SIGN 1
+
 typedef int	t_bool;
 
 typedef struct s_tokenizer
@@ -57,6 +60,13 @@ typedef struct s_tokenizer
 	struct s_tokenizer	*next;
 }	t_tokenizer;
 
+typedef struct s_cmdlist
+{
+	char				*content;
+	int					type;
+	struct s_cmdlist	*next;
+}	t_cmdlist;
+
 typedef struct s_minishell
 {
 	char			**env;
@@ -64,7 +74,9 @@ typedef struct s_minishell
 	int				shell_level;
 	int				exit_status;
 	t_tokenizer		*tokens;
+	t_cmdlist		*cmdlist;
 	t_block_memory	*garbage;
+	t_block_memory	*tmp;
 }	t_minishell;
 
 // utils
@@ -72,13 +84,13 @@ size_t	ft_strlen(const char *s);
 size_t	ft_arrlen(char **arr);
 char	*ft_strjoin(char *s1, char *s2, t_block_memory **garbage);
 char	*ft_strdup(char *s1, t_block_memory **garbage);
-char	*ft_substr(char *s, unsigned int start, size_t len);
+char	*ft_substr(t_block_memory **g, char *s, unsigned int start, size_t len);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 t_bool	is_equal(char *str1, char *str2);
-void	ft_exit(char *msg, int status, t_block_memory **garbage);
+void	ft_exit(char *msg, int status, t_minishell *minishell);
 int		ft_atoi(char *str);
-char	*ft_itoa(int n);
+char	*ft_itoa(t_block_memory **garbage, int n);
 size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
 size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 
@@ -107,6 +119,8 @@ void	handle_pipe_or_sign(t_minishell *m, t_tokenizer **t, char *s, int *i);
 void	handle_and_sign(t_minishell *m, t_tokenizer **t, char *s, int *i);
 void	handle_spaces(t_minishell *m, t_tokenizer **t, char *s, int *i);
 void	add_token(t_tokenizer **tokens, t_tokenizer *new);
-void	free_tokens(t_tokenizer **tokens);
+
+// parser
+void	parser(t_minishell *minishell);
 
 #endif

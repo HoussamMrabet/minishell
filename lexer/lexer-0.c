@@ -6,26 +6,11 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 11:31:22 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/22 14:29:43 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/23 16:51:33 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	free_tokens(t_tokenizer **tokens)
-{
-	t_tokenizer	*to_free;
-	t_tokenizer	*to_hold;
-
-	to_free = *tokens;
-	while (to_free)
-	{
-		to_hold = to_free->next;
-		free(to_free->token);
-		free(to_free);
-		to_free = to_hold;
-	}
-}
 
 void	add_token(t_tokenizer **tokens, t_tokenizer *new)
 {

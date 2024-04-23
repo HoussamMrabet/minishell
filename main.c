@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:51:44 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/22 15:25:35 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/23 16:55:27 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@ void	leaks(void)
 	system("leaks minishell");
 }
 
-int	main(int argc, char **argv, char **env)
+int	main(int c, char **v, char **env)
 {
-	char		*input;
-	t_minishell	minishell;
-	t_tokenizer	*tmp;
-
-	(1) && (argc = 0, argv = NULL, input = NULL, rl_catch_signals = 0);
+	char			*input;
+	t_minishell		minishell;
+	// t_tokenizer		*tmp;
+	
+	// atexit(leaks);
+	(1) && (c = 0, v = NULL, input = NULL, rl_catch_signals = 0);
 	init_data(&minishell, env);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_sigint);
@@ -48,12 +49,16 @@ int	main(int argc, char **argv, char **env)
 				ft_putstr_fd("Syntax error !\n", 2);
 				continue ;
 			}
-			tmp = minishell.tokens;
-			while (tmp)
-			{
-				printf("|token : %s -> type : %d|\n", tmp->token, tmp->type);
-				tmp = tmp->next;
-			}
+			parser(&minishell);
+			// tmp = minishell.tokens;
+			// while (tmp)
+			// {
+			// 	printf("|token : %s -> type : %d|\n", tmp->token, tmp->type);
+			// 	tmp = tmp->next;
+			// }
 		}
 	}
+	free(input);
+	ft_free(&minishell.garbage);
+	ft_free(&minishell.tmp);
 }
