@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:51:44 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/23 16:55:27 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/24 09:54:17 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int c, char **v, char **env)
 			write(1, "exit\n", 6);
 			rl_clear_history();
 			free(input);
-			ft_free(&minishell.garbage);
+			ft_free(&minishell.global);
 			exit(minishell.exit_status);
 		}
 		if (*input)
@@ -59,6 +59,6 @@ int	main(int c, char **v, char **env)
 		}
 	}
 	free(input);
-	ft_free(&minishell.garbage);
-	ft_free(&minishell.tmp);
+	ft_free(&minishell.global);
+	ft_free(&minishell.local);
 }

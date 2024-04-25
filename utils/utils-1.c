@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 08:10:38 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/23 15:46:04 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/24 09:34:49 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	ft_exit(char *msg, int status, t_minishell *minishell)
 		ft_putstr_fd(msg, 2);
 		ft_putchar_fd('\n', 1);
 	}
-	ft_free(&minishell->garbage);
-	ft_free(&minishell->tmp);
+	ft_free(&minishell->global);
+	ft_free(&minishell->local);
 	exit(status);
 }

@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/23 18:22:28 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/24 09:54:37 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ typedef struct s_minishell
 	int				exit_status;
 	t_tokenizer		*tokens;
 	t_cmdlist		*cmdlist;
-	t_block_memory	*garbage;
-	t_block_memory	*tmp;
+	t_block_memory	*global;
+	t_block_memory	*local;
 }	t_minishell;
 
 // utils
@@ -122,5 +122,8 @@ void	add_token(t_tokenizer **tokens, t_tokenizer *new);
 
 // parser
 void	parser(t_minishell *minishell);
+
+// expnading
+void	replace_expand_values(t_minishell *minishell, t_tokenizer **tokens);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 10:18:07 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/23 15:42:58 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/24 09:34:34 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char	**ft_get_paths(t_minishell *minishell)
 	env = get_env_value(minishell, "PATH");
 	if (!env)
 		ft_exit("Allocation error", 1, minishell);
-	res = splitpaths(env, ':', &minishell->garbage);
+	res = splitpaths(env, ':', &minishell->global);
 	if (!res)
 		ft_exit("Allocation error", 1, minishell);
 	return (res);
@@ -36,7 +36,7 @@ static void	ft_get_level(t_minishell *minishell)
 		ft_exit("Allocation error", 1, minishell);
 	lvl = ft_atoi(tmp);
 	lvl++;
-	tmp = ft_itoa(&minishell->tmp, lvl);
+	tmp = ft_itoa(&minishell->local, lvl);
 	if (!tmp)
 		ft_exit("Allocation error", 1, minishell);
 	set_env_value(minishell, "SHLVL", tmp);
@@ -45,8 +45,8 @@ static void	ft_get_level(t_minishell *minishell)
 
 void	init_data(t_minishell *minishell, char **env)
 {
-	minishell->garbage = NULL;
-	minishell->tmp = NULL;
+	minishell->global = NULL;
+	minishell->local = NULL;
 	minishell->env = NULL;
 	minishell->exit_status = 0;
 	if (!env || !*env)
@@ -55,5 +55,5 @@ void	init_data(t_minishell *minishell, char **env)
 		init_default_env(minishell, env);
 	minishell->paths = ft_get_paths(minishell);
 	ft_get_level(minishell);
-	ft_free(&minishell->tmp);
+	ft_free(&minishell->local);
 }
