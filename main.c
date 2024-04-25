@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:51:44 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/24 09:54:17 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/25 11:37:33 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,12 @@ int	main(int c, char **v, char **env)
 			// 	printf("|token : %s -> type : %d|\n", tmp->token, tmp->type);
 			// 	tmp = tmp->next;
 			// }
+			// while (minishell.env[c])
+			// {
+			// 	printf("%s\n", minishell.env[c]);
+			// 	c++;
+			// }
+			// c = 0;
 		}
 	}
 	free(input);

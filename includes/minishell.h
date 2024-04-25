@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/24 09:54:37 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/25 11:32:29 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ typedef struct s_cmdlist
 typedef struct s_minishell
 {
 	char			**env;
+	char			**hidden_env;
+	t_bool			custom_env;
 	char			**paths;
 	int				shell_level;
 	int				exit_status;
@@ -98,7 +100,7 @@ size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 void	init_default_env(t_minishell *minishell, char **env);
 void	init_custom_env(t_minishell *minishell);
 void	set_env_value(t_minishell *minishell, char *env, char *value);
-char	*get_env_value(t_minishell *minishell, char *str);
+char	*get_env_value(t_minishell *minishell, char *str, t_bool is_hidden);
 
 // signals
 void	handle_sigint(int signal);
@@ -123,7 +125,7 @@ void	add_token(t_tokenizer **tokens, t_tokenizer *new);
 // parser
 void	parser(t_minishell *minishell);
 
-// expnading
+// expanding
 void	replace_expand_values(t_minishell *minishell, t_tokenizer **tokens);
 
 #endif

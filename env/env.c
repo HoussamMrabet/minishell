@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 09:53:45 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/24 09:34:44 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/25 11:37:09 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,23 @@ void	init_custom_env(t_minishell *minishell)
 {
 	char	*cwd;
 
-	minishell->env = ft_malloc(&minishell->global, sizeof(char *) * 5);
-	if (!minishell->env)
+	minishell->env = ft_malloc(&minishell->global, sizeof(char *) * 4);
+	minishell->hidden_env = ft_malloc(&minishell->global, sizeof(char *) * 3);
+	if (!minishell->env || !minishell->hidden_env)
 		ft_exit("Allocation error", 1, minishell);
 	(1) && (cwd = NULL, cwd = getcwd(NULL, 0));
-	minishell->env[0] = ft_strjoin("PATH=", _PATH_STDPATH, &minishell->global);
-	minishell->env[1] = ft_strjoin("PWD=", cwd, &minishell->global);
-	minishell->env[2] = ft_strjoin("OLDPWD=", cwd, &minishell->global);
+	minishell->hidden_env[0] = ft_strjoin("PATH=",
+			_PATH_STDPATH, &minishell->global);
+	minishell->hidden_env[1] = ft_strjoin("OLDPWD=", cwd, &minishell->global);
+	minishell->hidden_env[2] = NULL;
+	minishell->env[0] = ft_strjoin("PWD=", cwd, &minishell->global);
+	minishell->env[1] = ft_strjoin("SHLVL=", "1", &minishell->global);
+	minishell->env[2] = ft_strjoin("_=", ft_strjoin(cwd, "/./minishell",
+				&minishell->global), &minishell->global);
 	free(cwd);
-	minishell->env[3] = ft_strjoin("SHLVL=", "1", &minishell->global);
-	minishell->env[4] = NULL;
+	minishell->env[3] = NULL;
 	if (!minishell->env[0] || !minishell->env[1] || !minishell->env[2]
-		|| !minishell->env[3] || !minishell->env)
+		|| !minishell->hidden_env[0] || !minishell->hidden_env[1])
 		ft_exit("Allocation error", 1, minishell);
 }
 
@@ -82,25 +87,27 @@ void	set_env_value(t_minishell *minishell, char *env, char *value)
 		ft_strlen(minishell->env[i]) + ft_strlen(value) + 1);
 }
 
-char	*get_env_value(t_minishell *minishell, char *str)
+char	*get_env_value(t_minishell *minishell, char *str, t_bool is_hidden)
 {
 	size_t	i;
 	size_t	j;
 	char	*var;
+	char	**env;
 
-	i = -1;
-	while (minishell->env[++i])
+	(is_hidden) && (env = minishell->hidden_env, i = -1);
+	(!is_hidden) && (env = minishell->env, i = -1);
+	while (env[++i])
 	{
 		j = 0;
-		while (minishell->env[i][j] && minishell->env[i][j] != '=')
+		while (env[i][j] && env[i][j] != '=')
 			j++;
-		var = ft_substr(&minishell->local, minishell->env[i], 0, j);
+		var = ft_substr(&minishell->local, env[i], 0, j);
 		if (!var)
 			return (NULL);
 		if (is_equal(str, var) && ft_strlen(str) == j)
 		{
-			var = ft_substr(&minishell->local, minishell->env[i], j + 1,
-					ft_strlen(minishell->env[i]) - j);
+			var = ft_substr(&minishell->local, env[i], j + 1,
+					ft_strlen(env[i]) - j);
 			if (!var)
 				return (NULL);
 			return (var);

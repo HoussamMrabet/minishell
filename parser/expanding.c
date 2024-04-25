@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 08:27:10 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/24 16:16:20 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/25 11:31:24 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	handle_text_expand2(t_minishell *mini, char **tok, char **val, int *i)
 		while ((*tok + (*i))[j] && (*tok + (*i))[j] != '$')
 			j++;
 		(1) && (j--, tmp = get_env_value(mini,
-			ft_substr(&mini->local, ((*tok + (*i)) + 1), 0, j)));
+			ft_substr(&mini->local, ((*tok + (*i)) + 1), 0, j), FALSE));
 		if (!tmp)
 			tmp = ft_strdup("", &mini->local);
 		(1) && ((*val) = ft_strjoin((*val), tmp, &mini->local), (*i) += j);
@@ -83,7 +83,7 @@ void	handle_quote_expand2(t_minishell *mini, char **tok, char **val, int *i)
 		while ((*tok)[(*i) + j] != '"' && (*tok)[(*i) + j] != '$')
 			j++;
 		(1) && (j--, tmp = get_env_value(mini,
-			ft_substr(&mini->local, (*tok) + ((*i) + 1), 0, j)));
+			ft_substr(&mini->local, (*tok) + ((*i) + 1), 0, j), FALSE));
 		if (!tmp)
 			tmp = ft_strdup("", &mini->local);
 		(*val) = ft_strjoin((*val), tmp, &mini->local);
