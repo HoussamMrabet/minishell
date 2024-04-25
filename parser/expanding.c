@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 08:27:10 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/25 11:31:24 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/25 11:51:59 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	handle_text_expand2(t_minishell *mini, char **tok, char **val, int *i)
 			ft_itoa(&mini->local, getpid()), &mini->local), (*i)++);
 	else if ((*tok)[(*i) + 1] == '?')
 		(1) && ((*val) = ft_strjoin((*val), ft_itoa(&mini->local,
-			mini->exit_status), &mini->local), (*i)++);
+			exit_status(0, FALSE)), &mini->local), (*i)++);
 	else
 	{
 		j = 1;
@@ -76,7 +76,7 @@ void	handle_quote_expand2(t_minishell *mini, char **tok, char **val, int *i)
 			ft_itoa(&mini->local, getpid()), &mini->local), (*i)++);
 	else if ((*tok)[(*i) + 1] == '?')
 		(1) && ((*val) = ft_strjoin((*val), ft_itoa(&mini->local,
-			mini->exit_status), &mini->local), (*i)++);
+			exit_status(0, FALSE)), &mini->local), (*i)++);
 	else
 	{
 		j = 1;

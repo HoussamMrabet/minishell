@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/25 11:32:29 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/25 11:53:43 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ typedef struct s_minishell
 	t_bool			custom_env;
 	char			**paths;
 	int				shell_level;
-	int				exit_status;
 	t_tokenizer		*tokens;
 	t_cmdlist		*cmdlist;
 	t_block_memory	*global;
@@ -127,5 +126,8 @@ void	parser(t_minishell *minishell);
 
 // expanding
 void	replace_expand_values(t_minishell *minishell, t_tokenizer **tokens);
+
+// exit
+int		exit_status(int new_status, t_bool to_set);
 
 #endif

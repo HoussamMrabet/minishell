@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   exit_status.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/20 09:56:56 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/25 11:52:23 by hmrabet          ###   ########.fr       */
+/*   Created: 2024/04/25 11:46:37 by hmrabet           #+#    #+#             */
+/*   Updated: 2024/04/25 11:49:57 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_sigint(int signal)
+int	exit_status(int new_status, t_bool to_set)
 {
-	if (signal == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-		exit_status(1, TRUE);
-	}
+	static int	exit_status;
+	
+	(to_set) && (exit_status = new_status);
+	return (exit_status);
 }

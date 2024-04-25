@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:51:44 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/25 11:37:33 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/25 11:51:59 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	leaks(void)
 
 int	main(int c, char **v, char **env)
 {
-	char			*input;
-	t_minishell		minishell;
+	char				*input;
+	t_minishell			minishell;
 	// t_tokenizer		*tmp;
 	
 	// atexit(leaks);
@@ -36,16 +36,14 @@ int	main(int c, char **v, char **env)
 		{
 			write(1, "exit\n", 6);
 			rl_clear_history();
-			free(input);
-			ft_free(&minishell.global);
-			exit(minishell.exit_status);
+			break ;
 		}
 		if (*input)
 		{
 			add_history(input);
 			if (lexer(&minishell, input))
 			{
-				minishell.exit_status = 258;
+				exit_status(258, TRUE);
 				ft_putstr_fd("Syntax error !\n", 2);
 				continue ;
 			}
@@ -67,4 +65,5 @@ int	main(int c, char **v, char **env)
 	free(input);
 	ft_free(&minishell.global);
 	ft_free(&minishell.local);
+	return (exit_status(0, FALSE));
 }

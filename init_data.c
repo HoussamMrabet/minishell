@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 10:18:07 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/25 11:29:53 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/25 11:49:04 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	init_data(t_minishell *minishell, char **env)
 	minishell->local = NULL;
 	minishell->env = NULL;
 	minishell->hidden_env = NULL;
-	minishell->exit_status = 0;
 	minishell->custom_env = FALSE;
 	if (!env || !*env)
 	{
