@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 08:27:10 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/25 11:51:59 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/26 18:27:59 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,26 @@ void	handle_quote_expand(t_minishell *minishell, char **tokens)
 	*tokens = value;
 }
 
+void	remove_quotes(t_minishell *minishell, char **tokens)
+{
+	int			i;
+	int			j;
+	char		*tmp;
+	char		*value;
+
+	(1) && (i = 0, value = ft_strdup("", &minishell->local));
+	while ((*tokens)[++i] != '\'')
+	{
+		j = 0;
+		while (((*tokens) + i)[j] != '\'')
+			j++;
+		tmp = ft_substr(&minishell->local, (*tokens) + i, 0, j);
+		value = ft_strjoin(value, tmp, &minishell->local);
+		i += j - 1;
+	}
+	*tokens = value;
+}
+
 void	replace_expand_values(t_minishell *minishell, t_tokenizer **tokens)
 {
 	t_tokenizer	*token;
@@ -127,6 +147,8 @@ void	replace_expand_values(t_minishell *minishell, t_tokenizer **tokens)
 			handle_text_expand(minishell, &token->token);
 		else if (token->type == D_QUOTE)
 			handle_quote_expand(minishell, &token->token);
+		else if (token->type == S_QUOTE)
+			remove_quotes(minishell, &token->token);
 		token = token->next;
 	}
 }
