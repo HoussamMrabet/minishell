@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/26 18:00:38 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/26 19:37:24 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ void	add_token(t_tokenizer **tokens, t_tokenizer *new);
 
 // parser
 void	parser(t_minishell *minishell);
+void	remove_quotes(t_minishell *minishell, char **tokens);
 
 // expanding
 void	replace_expand_values(t_minishell *minishell, t_tokenizer **tokens);
