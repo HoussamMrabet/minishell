@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/26 19:37:24 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/27 11:22:40 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@
 # define S_QUOTE 10
 # define D_QUOTE 11
 # define PARENTHESE 12
+# define WILD_CARD 13
 
 # define CMD 0
 # define SIGN 1
@@ -94,6 +95,7 @@ int		ft_atoi(char *str);
 char	*ft_itoa(t_block_memory **garbage, int n);
 size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
 size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
+t_bool	ft_strchr(char *s, char c);
 
 // env
 void	init_default_env(t_minishell *minishell, char **env);
@@ -120,10 +122,11 @@ void	handle_pipe_or_sign(t_minishell *m, t_tokenizer **t, char *s, int *i);
 void	handle_and_sign(t_minishell *m, t_tokenizer **t, char *s, int *i);
 void	handle_spaces(t_minishell *m, t_tokenizer **t, char *s, int *i);
 void	add_token(t_tokenizer **tokens, t_tokenizer *new);
+int		check_op_syntax(t_minishell *minishell);
 
 // parser
 void	parser(t_minishell *minishell);
-void	remove_quotes(t_minishell *minishell, char **tokens);
+void	remove_quotes(t_minishell *minishell, char **tokens, char sign);
 
 // expanding
 void	replace_expand_values(t_minishell *minishell, t_tokenizer **tokens);

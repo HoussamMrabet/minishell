@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 11:31:22 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/23 16:51:33 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/27 11:29:48 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,35 @@ static t_bool	format_invalid(char *input)
 		(input[i[1]] == ')' && !q[0] && !q[1]) && (i[0]--);
 	}
 	return (q[0] || q[1] || i[0] || i[2]);
+}
+
+int	check_op_syntax(t_minishell *minishell)
+{
+	t_tokenizer	*t;
+
+	t = minishell->tokens;
+	while (t)
+	{
+		if (t->type == PIPE || t->type == OR || t->type == AND
+			|| t->type == IN_RED || t->type == OUT_RED || t->type == DELIMITER
+			|| t->type == APPEND || t->type == PARENTHESE)
+		{
+			while (t)
+			{
+				if (t->next && t->next->type == SPACES)
+					t = t->next;
+				else
+					break ;
+			}
+			if (t->next && (t->next->type == PIPE || t->next->type == OR
+					|| t->next->type == AND || t->next->type == IN_RED
+					|| t->next->type == OUT_RED || t->next->type == DELIMITER
+					|| t->next->type == APPEND || t->next->type == PARENTHESE))
+				return (1);
+		}
+		t = t->next;
+	}
+	return (0);
 }
 
 int	lexer(t_minishell *minishell, char *input)

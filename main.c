@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:51:44 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/26 19:48:13 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/27 11:22:48 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,12 @@ int	main(int c, char **v, char **env)
 		if (*input)
 		{
 			add_history(input);
-			if (lexer(&minishell, input))
+			if (lexer(&minishell, input)
+				|| check_op_syntax(&minishell))
 			{
 				exit_status(258, TRUE);
 				ft_putstr_fd("Syntax error !\n", 2);
+				ft_free(&minishell.local);
 				continue ;
 			}
 			parser(&minishell);

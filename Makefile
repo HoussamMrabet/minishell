@@ -6,7 +6,7 @@
 #    By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/04 16:56:33 by hmrabet           #+#    #+#              #
-#    Updated: 2024/04/25 11:52:50 by hmrabet          ###   ########.fr        #
+#    Updated: 2024/04/27 06:48:52 by hmrabet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = minishell
 BONUS = minishell_bonus
 
 SRCS = main.c init_data.c exit_status.c \
-		utils/heap.c utils/utils-0.c utils/utils-1.c utils/utils-2.c utils/splitpaths.c \
+		utils/heap.c utils/utils-0.c utils/utils-1.c utils/utils-2.c utils/utils-3.c utils/splitpaths.c \
 		env/env.c \
 		signals/signals.c \
 		lexer/lexer-0.c lexer/lexer-1.c lexer/lexer-2.c lexer/lexer-3.c \

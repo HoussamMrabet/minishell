@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 08:27:10 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/26 19:38:57 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/27 10:42:51 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,14 @@ static void	handle_quote_expand2(t_minishell *m, char **tok, char **val, int *i)
 	else if ((*tok)[(*i) + 1] == '$')
 		(1) && ((*val) = ft_strjoin((*val),
 			ft_itoa(&m->local, getpid()), &m->local), (*i)++);
-	else if ((*tok)[(*i) + 1] == '?')
-		(1) && ((*val) = ft_strjoin((*val), ft_itoa(&m->local,
-			exit_status(0, FALSE)), &m->local), (*i)++);
+	// else if ((*tok)[(*i) + 1] == '?')
+	// 	(1) && ((*val) = ft_strjoin((*val), ft_itoa(&m->local,
+	// 		exit_status(0, FALSE)), &m->local), (*i)++);
 	else
 	{
 		j = 1;
-		while ((*tok)[(*i) + j] != '"' && (*tok)[(*i) + j] != '$')
+		while ((*tok)[(*i) + j] != '"' && (*tok)[(*i) + j] != '\''
+			&& (*tok)[(*i) + j] != '$')
 			j++;
 		(1) && (j--, tmp = get_env_value(m,
 			ft_substr(&m->local, (*tok) + ((*i) + 1), 0, j), FALSE));
@@ -119,16 +120,25 @@ static void	handle_quote_expand(t_minishell *minishell, char **tokens)
 void	replace_expand_values(t_minishell *minishell, t_tokenizer **tokens)
 {
 	t_tokenizer	*token;
+	t_bool		is_del;
 
+	is_del = FALSE;
 	token = *tokens;
 	while (token)
 	{
-		if (token->type == TEXT)
+		if (token->type == DELIMITER)
+			is_del = TRUE;
+		else if (token->type == TEXT && !is_del)
 			handle_text_expand(minishell, &token->token);
-		else if (token->type == D_QUOTE)
+		else if (token->type == D_QUOTE && !is_del)
 			handle_quote_expand(minishell, &token->token);
+		else if (token->type == D_QUOTE)
+			remove_quotes(minishell, &token->token, '"');
 		else if (token->type == S_QUOTE)
-			remove_quotes(minishell, &token->token);
+			remove_quotes(minishell, &token->token, '\'');
+		if (token->type != SPACES && token->type != DELIMITER && token->next
+			&& token->next->type == SPACES)
+			is_del = FALSE;
 		token = token->next;
 	}
 }
