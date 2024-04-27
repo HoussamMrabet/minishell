@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/27 11:22:40 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/27 12:07:18 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ char	*ft_itoa(t_block_memory **garbage, int n);
 size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
 size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 t_bool	ft_strchr(char *s, char c);
+t_bool	ft_isalnum(char c);
 
 // env
 void	init_default_env(t_minishell *minishell, char **env);
