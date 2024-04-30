@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 06:41:00 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/27 11:13:02 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/30 06:10:56 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,6 @@ void	parser(t_minishell *minishell)
 	separate_wildcards(&tokens);
 	merge_tokens(minishell, &tokens);
 	split_commands(minishell, &tokens);
-	while (tokens)
-	{
-		printf("token : %s -> %d\n", tokens->token, tokens->type);
-		tokens = tokens->next;
-	}
+	ft_wildcards(minishell);
+	merge_wildcards(minishell);
 }

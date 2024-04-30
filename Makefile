@@ -6,7 +6,7 @@
 #    By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/04 16:56:33 by hmrabet           #+#    #+#              #
-#    Updated: 2024/04/27 06:48:52 by hmrabet          ###   ########.fr        #
+#    Updated: 2024/04/30 06:02:13 by hmrabet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRCS = main.c init_data.c exit_status.c \
 		env/env.c \
 		signals/signals.c \
 		lexer/lexer-0.c lexer/lexer-1.c lexer/lexer-2.c lexer/lexer-3.c \
-		parser/parser-0.c parser/expanding.c
+		parser/parser-0.c parser/expanding.c parser/wildcards.c
 
 OBJS = $(SRCS:.c=.o)
 

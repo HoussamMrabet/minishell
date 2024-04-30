@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/27 12:07:18 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/30 06:01:03 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
 size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 t_bool	ft_strchr(char *s, char c);
 t_bool	ft_isalnum(char c);
+char	**ft_split(const char *s, char c);
 
 // env
 void	init_default_env(t_minishell *minishell, char **env);
@@ -128,6 +129,8 @@ int		check_op_syntax(t_minishell *minishell);
 // parser
 void	parser(t_minishell *minishell);
 void	remove_quotes(t_minishell *minishell, char **tokens, char sign);
+void	ft_wildcards(t_minishell *minishell);
+void	merge_wildcards(t_minishell *minishell);
 
 // expanding
 void	replace_expand_values(t_minishell *minishell, t_tokenizer **tokens);

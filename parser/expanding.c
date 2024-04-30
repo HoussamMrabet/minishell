@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 08:27:10 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/27 12:10:39 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/04/28 09:59:17 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,6 @@ static void	handle_quote_expand2(t_minishell *m, char **tok, char **val, int *i)
 	else if ((*tok)[(*i) + 1] == '$')
 		(1) && ((*val) = ft_strjoin((*val),
 			ft_itoa(&m->local, getpid()), &m->local), (*i)++);
-	// else if ((*tok)[(*i) + 1] == '?')
-	// 	(1) && ((*val) = ft_strjoin((*val), ft_itoa(&m->local,
-	// 		exit_status(0, FALSE)), &m->local), (*i)++);
 	else
 	{
 		j = 1;
