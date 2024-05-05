@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:51:44 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/30 06:14:02 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/05 17:23:51 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ void	leaks(void)
 {
 	system("leaks minishell");
 }
+
+// void	run_commands(t_minishell *minishell)
+// {
+	
+// }
 
 int	main(int c, char **v, char **env)
 {
@@ -50,6 +55,7 @@ int	main(int c, char **v, char **env)
 				continue ;
 			}
 			parser(&minishell);
+			// run_commands(&minishell);
 			// tmp = minishell.tokens;
 			// while (tmp)
 			// {

@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/30 06:01:03 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/05 17:56:15 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,39 +32,41 @@
 # include <paths.h>
 # include <stdio.h>
 
-# define TRUE 1
-# define FALSE 0
+typedef enum e_bool
+{
+	FALSE,
+	TRUE,
+}	t_bool;
 
-# define TEXT 1
-# define PIPE 2
-# define OR 3
-# define AND 4
-# define IN_RED 5
-# define OUT_RED 6
-# define DELIMITER 7
-# define APPEND 8
-# define SPACES 9
-# define S_QUOTE 10
-# define D_QUOTE 11
-# define PARENTHESE 12
-# define WILD_CARD 13
-
-# define CMD 0
-# define SIGN 1
-
-typedef int	t_bool;
+typedef enum e_type
+{
+	CMD,
+	TEXT,
+	PIPE,
+	OR,
+	AND,
+	IN_RED,
+	OUT_RED,
+	DELIMITER,
+	APPEND,
+	SPACES,
+	S_QUOTE,
+	D_QUOTE,
+	PARENTHESE,
+	WILD_CARD,
+}	t_type;
 
 typedef struct s_tokenizer
 {
 	char				*token;
-	int					type;
+	t_type				type;
 	struct s_tokenizer	*next;
 }	t_tokenizer;
 
 typedef struct s_cmdlist
 {
 	char				*content;
-	int					type;
+	t_type				type;
 	struct s_cmdlist	*next;
 }	t_cmdlist;
 
@@ -97,7 +99,8 @@ size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
 size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 t_bool	ft_strchr(char *s, char c);
 t_bool	ft_isalnum(char c);
-char	**ft_split(const char *s, char c);
+int		ft_strcmp(const char *s1, const char *s2);
+char	**ft_split(char *s, char c, t_block_memory **garbage);
 
 // env
 void	init_default_env(t_minishell *minishell, char **env);
@@ -137,5 +140,10 @@ void	replace_expand_values(t_minishell *minishell, t_tokenizer **tokens);
 
 // exit
 int		exit_status(int new_status, t_bool to_set);
+
+// builtins
+char	*ft_echo(t_minishell *minishell, char *cmd);
+char	*ft_pwd(t_minishell *minishell);
+char	*ft_env(t_minishell *minishell);
 
 #endif
