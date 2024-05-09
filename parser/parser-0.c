@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 06:41:00 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/09 15:06:48 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/09 16:16:56 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	split_commands(t_minishell *m, t_tokenizer **tokens)
 	tmp = *tokens;
 	while (tmp)
 	{
+		(tmp->type == DELIMITER && tmp->next) && (tmp->next->type = DELIM);
 		if (tmp->type == TEXT || tmp->type == D_QUOTE
 			|| tmp->type == S_QUOTE)
 			tmp->type = CMD;

@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/09 15:06:48 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/09 16:15:36 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef enum e_type
 	IN_RED,
 	OUT_RED,
 	DELIMITER,
+	DELIM,
 	APPEND,
 	SPACES,
 	S_QUOTE,
