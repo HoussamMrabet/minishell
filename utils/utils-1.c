@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 08:10:38 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/24 09:34:49 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/09 14:51:47 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	ft_atoi(char *str)
 	return (sign * (int)res);
 }
 
-void	ft_exit(char *msg, int status, t_minishell *minishell)
+int	ft_exit(char *msg, int status, t_minishell *minishell)
 {
 	if (msg)
 	{
@@ -102,4 +102,5 @@ void	ft_exit(char *msg, int status, t_minishell *minishell)
 	ft_free(&minishell->global);
 	ft_free(&minishell->local);
 	exit(status);
+	return (0);
 }

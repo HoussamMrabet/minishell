@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 10:18:07 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/25 11:49:04 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/09 15:06:48 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	ft_get_level(t_minishell *minishell)
 	if (!tmp)
 		ft_exit("Allocation error", 1, minishell);
 	set_env_value(minishell, "SHLVL", tmp);
-	minishell->shell_level = lvl;
+	minishell->lvl = lvl;
 }
 
 void	init_data(t_minishell *minishell, char **env)

@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 08:27:10 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/28 09:59:17 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/09 15:36:05 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,27 @@ static void	handle_text_expand2(t_minishell *m, char **tok, char **val, int *i)
 {
 	int		j;
 	char	*tmp;
+	char	*str;
 
-	if (!(*tok)[(*i) + 1])
+	if (!(*tok)[(*i) + 1] || !ft_isalnum((*tok)[(*i) + 1]))
 		(*val) = ft_strjoin((*val), "$", &m->local);
-	else if ((*tok)[(*i) + 1] == '$')
-		(1) && ((*val) = ft_strjoin((*val),
-			ft_itoa(&m->local, getpid()), &m->local), (*i)++);
 	else if ((*tok)[(*i) + 1] == '?')
-		(1) && ((*val) = ft_strjoin((*val), ft_itoa(&m->local,
-			exit_status(0, FALSE)), &m->local), (*i)++);
+	{
+		str = ft_itoa(&m->local, exit_status(0, FALSE));
+		(1) && (*val = ft_strjoin((*val), str, &m->local), (*i)++);
+	}
 	else
 	{
 		j = 1;
 		while (ft_isalnum((*tok + (*i))[j]))
 			j++;
-		(1) && (j--, tmp = get_env_value(m,
-			ft_substr(&m->local, ((*tok + (*i)) + 1), 0, j), FALSE));
-		if (!tmp)
-			tmp = ft_strdup("", &m->local);
-		(1) && ((*val) = ft_strjoin((*val), tmp, &m->local), (*i) += j);
+		(1) && (j--, str = ft_substr(&m->local, ((*tok + (*i)) + 1), 0, j));
+		(!str) && (j = ft_exit("Allocation error", 1, m));
+		tmp = get_env_value(m, str, FALSE);
+		(!tmp) && (tmp = ft_strdup("", &m->local));
+		(1) && (*val = ft_strjoin((*val), tmp, &m->local), (*i) += j);
 	}
+	(!*val) && (j = ft_exit("Allocation error", 1, m));
 }
 
 static void	handle_text_expand(t_minishell *minishell, char **tokens)
@@ -46,6 +47,8 @@ static void	handle_text_expand(t_minishell *minishell, char **tokens)
 	char		*val;
 
 	(1) && (i = 0, val = ft_strdup("", &minishell->local));
+	if (!val)
+		ft_exit("Allocation error", 1, minishell);
 	while ((*tokens)[i])
 	{
 		if ((*tokens)[i] == '$')
@@ -56,8 +59,9 @@ static void	handle_text_expand(t_minishell *minishell, char **tokens)
 			while ((*tokens + i)[j] && (*tokens + i)[j] != '$')
 				j++;
 			tmp = ft_substr(&minishell->local, (*tokens) + i, 0, j);
-			val = ft_strjoin(val, tmp, &minishell->local);
-			i += j - 1;
+			(1) && (val = ft_strjoin(val, tmp, &minishell->local), i += j - 1);
+			if (!val)
+				ft_exit("Allocation error", 1, minishell);
 		}
 		i++;
 	}
@@ -68,24 +72,23 @@ static void	handle_quote_expand2(t_minishell *m, char **tok, char **val, int *i)
 {
 	int		j;
 	char	*tmp;
+	char	*str;
 
 	if ((*tok)[(*i) + 1] == '"')
 		(*val) = ft_strjoin((*val), "$", &m->local);
-	else if ((*tok)[(*i) + 1] == '$')
-		(1) && ((*val) = ft_strjoin((*val),
-			ft_itoa(&m->local, getpid()), &m->local), (*i)++);
 	else
 	{
 		j = 1;
 		while (ft_isalnum((*tok + (*i))[j]))
 			j++;
-		(1) && (j--, tmp = get_env_value(m,
-			ft_substr(&m->local, (*tok) + ((*i) + 1), 0, j), FALSE));
-		if (!tmp)
-			tmp = ft_strdup("", &m->local);
+		str = ft_substr(&m->local, (*tok) + ((*i) + 1), 0, j);
+		(!str) && (j = ft_exit("Allocation error", 1, m));
+		(1) && (j--, tmp = get_env_value(m, str, FALSE));
+		(!tmp) && (tmp = ft_strdup("", &m->local));
 		(*val) = ft_strjoin((*val), tmp, &m->local);
 		*i += j;
 	}
+	(!*val) && (j = ft_exit("Allocation error", 1, m));
 }
 
 static void	handle_quote_expand(t_minishell *minishell, char **tokens)
@@ -96,6 +99,7 @@ static void	handle_quote_expand(t_minishell *minishell, char **tokens)
 	char		*value;
 
 	(1) && (i = 0, value = ft_strdup("", &minishell->local));
+	(!value) && (j = ft_exit("Allocation error", 1, minishell));
 	while ((*tokens)[++i] != '"')
 	{
 		if ((*tokens)[i] == '$')
@@ -107,6 +111,7 @@ static void	handle_quote_expand(t_minishell *minishell, char **tokens)
 				j++;
 			tmp = ft_substr(&minishell->local, (*tokens) + i, 0, j);
 			value = ft_strjoin(value, tmp, &minishell->local);
+			(!value) && (ft_exit("Allocation error", 1, minishell));
 			i += j - 1;
 		}
 	}

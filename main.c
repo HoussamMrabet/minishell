@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:51:44 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/05 17:23:51 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/09 15:44:38 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,12 @@ void	leaks(void)
 	system("leaks minishell");
 }
 
-// void	run_commands(t_minishell *minishell)
-// {
-	
-// }
-
 int	main(int c, char **v, char **env)
 {
 	char				*input;
 	t_minishell			minishell;
-	// t_tokenizer		*tmp;
 	
-	// atexit(leaks);
+	atexit(leaks);
 	(1) && (c = 0, v = NULL, input = NULL, rl_catch_signals = 0);
 	init_data(&minishell, env);
 	signal(SIGQUIT, SIG_IGN);
@@ -55,19 +49,7 @@ int	main(int c, char **v, char **env)
 				continue ;
 			}
 			parser(&minishell);
-			// run_commands(&minishell);
-			// tmp = minishell.tokens;
-			// while (tmp)
-			// {
-			// 	printf("|token : %s -> type : %d|\n", tmp->token, tmp->type);
-			// 	tmp = tmp->next;
-			// }
-			// while (minishell.env[c])
-			// {
-			// 	printf("%s\n", minishell.env[c]);
-			// 	c++;
-			// }
-			// c = 0;
+			run_commands(&minishell);
 		}
 	}
 	free(input);

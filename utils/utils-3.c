@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 06:46:42 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/05 17:34:59 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/09 15:07:30 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ t_bool	ft_strchr(char *s, char c)
 {
 	size_t	i;
 
+	if (!s)
+		return (FALSE);
 	i = 0;
 	while (s[i])
 	{

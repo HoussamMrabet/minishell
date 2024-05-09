@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/05 17:56:15 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/09 15:06:48 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ typedef struct s_minishell
 	char			**hidden_env;
 	t_bool			custom_env;
 	char			**paths;
-	int				shell_level;
+	int				lvl;
 	t_tokenizer		*tokens;
 	t_cmdlist		*cmdlist;
 	t_block_memory	*global;
@@ -92,7 +92,7 @@ char	*ft_substr(t_block_memory **g, char *s, unsigned int start, size_t len);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 t_bool	is_equal(char *str1, char *str2);
-void	ft_exit(char *msg, int status, t_minishell *minishell);
+int		ft_exit(char *msg, int status, t_minishell *minishell);
 int		ft_atoi(char *str);
 char	*ft_itoa(t_block_memory **garbage, int n);
 size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
@@ -142,8 +142,13 @@ void	replace_expand_values(t_minishell *minishell, t_tokenizer **tokens);
 int		exit_status(int new_status, t_bool to_set);
 
 // builtins
+void	check_builtins(t_minishell *minishell, char *cmd);
 char	*ft_echo(t_minishell *minishell, char *cmd);
 char	*ft_pwd(t_minishell *minishell);
 char	*ft_env(t_minishell *minishell);
+
+// execution
+void	run_commands(t_minishell *minishell);
+void	here_doc(t_minishell *minishell);
 
 #endif
