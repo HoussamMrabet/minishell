@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 06:46:42 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/09 15:07:30 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/11 20:20:28 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ t_bool	ft_strchr(char *s, char c)
 		i++;
 	}
 	return (FALSE);
+}
+
+t_bool	ft_isal(char c)
+{
+	return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
 }
 
 t_bool	ft_isalnum(char c)

@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 10:18:07 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/10 09:26:51 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/11 18:02:04 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static char	**ft_get_paths(t_minishell *minishell)
 	char	*env;
 
 	if (minishell->custom_env)
-		env = get_env_value(minishell, "PATH", TRUE);
+		env = get_env_value(minishell, "PATH");
 	else
-		env = get_env_value(minishell, "PATH", FALSE);
+		env = get_env_value(minishell, "PATH");
 	if (!env)
 		ft_exit("Allocation error", 1, minishell);
 	res = splitpaths(env, ':', &minishell->global);
@@ -34,7 +34,7 @@ static void	ft_get_level(t_minishell *minishell)
 	int		lvl;
 	char	*tmp;
 
-	tmp = get_env_value(minishell, "SHLVL", FALSE);
+	tmp = get_env_value(minishell, "SHLVL");
 	if (!tmp)
 		ft_exit("Allocation error", 1, minishell);
 	lvl = ft_atoi(tmp);
@@ -51,7 +51,7 @@ void	init_data(t_minishell *minishell, char **env)
 	minishell->global = NULL;
 	minishell->local = NULL;
 	minishell->env = NULL;
-	minishell->hidden_env = NULL;
+	minishell->fake_env = NULL;
 	minishell->custom_env = FALSE;
 	if (!env || !*env)
 	{

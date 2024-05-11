@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 08:27:10 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/11 12:34:36 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/11 20:28:53 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,15 @@ static void	handle_text_expand2(t_minishell *m, char **tok, char **val, int *i)
 	else
 	{
 		j = 1;
-		while (ft_isalnum((*tok + (*i))[j]))
+		if ((*tok + (*i))[j] == '_' || ft_isal((*tok + (*i))[j]))
+		{
 			j++;
+			while ((*tok + (*i))[j] == '_' || ft_isalnum((*tok + (*i))[j]))
+				j++;	
+		}
 		(1) && (j--, str = ft_substr(&m->local, ((*tok + (*i)) + 1), 0, j));
 		(!str) && (j = ft_exit("Allocation error", 1, m));
-		tmp = get_env_value(m, str, FALSE);
+		tmp = get_env_value(m, str);
 		(!tmp) && (tmp = ft_strdup("", &m->local));
 		(1) && (*val = ft_strjoin((*val), tmp, &m->local), (*i) += j);
 	}
@@ -84,14 +88,17 @@ static void	handle_quote_expand2(t_minishell *m, char **tok, char **val, int *i)
 	else
 	{
 		j = 1;
-		while (ft_isalnum((*tok + (*i))[j]))
+		if ((*tok + (*i))[j] == '_' || ft_isal((*tok + (*i))[j]))
+		{
 			j++;
-		str = ft_substr(&m->local, (*tok) + ((*i) + 1), 0, j);
+			while ((*tok + (*i))[j] == '_' || ft_isalnum((*tok + (*i))[j]))
+				j++;	
+		}
+		(1) && (j--, str = ft_substr(&m->local, ((*tok + (*i)) + 1), 0, j));
 		(!str) && (j = ft_exit("Allocation error", 1, m));
-		(1) && (j--, tmp = get_env_value(m, str, FALSE));
+		tmp = get_env_value(m, str);
 		(!tmp) && (tmp = ft_strdup("", &m->local));
-		(*val) = ft_strjoin((*val), tmp, &m->local);
-		*i += j;
+		(1) && (*val = ft_strjoin((*val), tmp, &m->local), (*i) += j);
 	}
 	(!*val) && (j = ft_exit("Allocation error", 1, m));
 }

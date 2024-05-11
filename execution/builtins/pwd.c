@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:45:30 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/05 17:51:28 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/11 18:02:18 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 char	*ft_pwd(t_minishell *minishell)
 {
-	return (get_env_value(minishell, "PWD", FALSE));
+	return (get_env_value(minishell, "PWD"));
 }

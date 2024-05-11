@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/11 13:02:24 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/11 20:20:44 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct s_cmdlist
 typedef struct s_minishell
 {
 	char			**env;
-	char			**hidden_env;
+	char			**fake_env;
 	t_bool			custom_env;
 	char			**paths;
 	int				lvl;
@@ -100,6 +100,7 @@ size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
 size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 t_bool	ft_strchr(char *s, char c);
 t_bool	ft_isalnum(char c);
+t_bool	ft_isal(char c);
 int		ft_strcmp(const char *s1, const char *s2);
 char	**ft_split(char *s, char c, t_block_memory **garbage);
 
@@ -107,7 +108,8 @@ char	**ft_split(char *s, char c, t_block_memory **garbage);
 void	init_default_env(t_minishell *minishell, char **env);
 void	init_custom_env(t_minishell *minishell);
 void	set_env_value(t_minishell *minishell, char *env, char *value);
-char	*get_env_value(t_minishell *minishell, char *str, t_bool is_hidden);
+void	set_fake_env_value(t_minishell *minishell, char *env, char *value);
+char	*get_env_value(t_minishell *minishell, char *str);
 
 // signals
 void	handle_sigint(int signal);
@@ -147,6 +149,7 @@ int		check_builtins(t_minishell *minishell, char *cmd);
 char	*ft_echo(t_minishell *minishell, char *cmd);
 char	*ft_pwd(t_minishell *minishell);
 char	*ft_env(t_minishell *minishell);
+void	ft_export(t_minishell *minishell, char *cmd);
 
 // execution
 void	run_commands(t_minishell *minishell);

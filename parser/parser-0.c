@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 06:41:00 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/09 16:16:56 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/11 19:46:49 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	split_commands(t_minishell *m, t_tokenizer **tokens)
 	{
 		if (tmp->type == CMD && tmp->next && tmp->next->type == CMD)
 		{
-			tmp->token = ft_strjoin(tmp->token, " ", &m->local);
+			tmp->token = ft_strjoin(tmp->token, "\n", &m->local);
 			(!tmp->token) && (m->lvl = ft_exit("Allocation error", 1, m));
 			tmp->token = ft_strjoin(tmp->token, tmp->next->token, &m->local);
 			(!tmp->token) && (m->lvl = ft_exit("Allocation error", 1, m));
