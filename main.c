@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:51:44 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/09 16:42:32 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/11 16:32:37 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int c, char **v, char **env)
 	char				*input;
 	t_minishell			minishell;
 
-	atexit(leaks);
+	// atexit(leaks);
 	(1) && (c = 0, v = NULL, input = NULL, rl_catch_signals = 0);
 	init_data(&minishell, env);
 	signal(SIGQUIT, SIG_IGN);

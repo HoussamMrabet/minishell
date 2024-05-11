@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 08:27:10 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/09 15:36:05 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/11 12:34:36 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ static void	handle_text_expand2(t_minishell *m, char **tok, char **val, int *i)
 	char	*tmp;
 	char	*str;
 
-	if (!(*tok)[(*i) + 1] || !ft_isalnum((*tok)[(*i) + 1]))
-		(*val) = ft_strjoin((*val), "$", &m->local);
-	else if ((*tok)[(*i) + 1] == '?')
+	if ((*tok)[(*i) + 1] == '?')
 	{
 		str = ft_itoa(&m->local, exit_status(0, FALSE));
 		(1) && (*val = ft_strjoin((*val), str, &m->local), (*i)++);
 	}
+	else if (!(*tok)[(*i) + 1] || !ft_isalnum((*tok)[(*i) + 1]))
+		(*val) = ft_strjoin((*val), "$", &m->local);
 	else
 	{
 		j = 1;
@@ -74,7 +74,12 @@ static void	handle_quote_expand2(t_minishell *m, char **tok, char **val, int *i)
 	char	*tmp;
 	char	*str;
 
-	if ((*tok)[(*i) + 1] == '"')
+	if ((*tok)[(*i) + 1] == '?')
+	{
+		str = ft_itoa(&m->local, exit_status(0, FALSE));
+		(1) && (*val = ft_strjoin((*val), str, &m->local), (*i)++);
+	}
+	else if ((*tok)[(*i) + 1] == '"' || !ft_isalnum((*tok)[(*i) + 1]))
 		(*val) = ft_strjoin((*val), "$", &m->local);
 	else
 	{

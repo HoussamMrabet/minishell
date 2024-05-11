@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/09 16:15:36 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/11 13:02:24 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_tokenizer
 
 typedef struct s_cmdlist
 {
-	char				*content;
+	t_tokenizer			*tokens;
 	t_type				type;
 	struct s_cmdlist	*next;
 }	t_cmdlist;
@@ -143,7 +143,7 @@ void	replace_expand_values(t_minishell *minishell, t_tokenizer **tokens);
 int		exit_status(int new_status, t_bool to_set);
 
 // builtins
-void	check_builtins(t_minishell *minishell, char *cmd);
+int		check_builtins(t_minishell *minishell, char *cmd);
 char	*ft_echo(t_minishell *minishell, char *cmd);
 char	*ft_pwd(t_minishell *minishell);
 char	*ft_env(t_minishell *minishell);
