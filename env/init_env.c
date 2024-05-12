@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 09:53:45 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/11 18:56:38 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/12 08:10:41 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ void	init_custom_env(t_minishell *minishell)
 	minishell->env[2] = ft_strjoin("PWD=", cwd, &minishell->global);
 	minishell->env[3] = ft_strjoin("SHLVL=", "1", &minishell->global);
 	minishell->env[4] = ft_strjoin("_=", ft_strjoin(cwd, "/./minishell",
-				&minishell->global), &minishell->global);
+				&minishell->local), &minishell->global);
 	minishell->env[5] = NULL;
 	minishell->fake_env[0] = ft_strjoin("PWD=", cwd, &minishell->global);
 	minishell->fake_env[1] = ft_strjoin("SHLVL=", "1", &minishell->global);
 	minishell->fake_env[2] = ft_strjoin("_=", ft_strjoin(cwd, "/./minishell",
-				&minishell->global), &minishell->global);
+				&minishell->local), &minishell->global);
 	minishell->fake_env[3] = NULL;
 	free(cwd);
 	if (!minishell->env[0] || !minishell->env[1] || !minishell->env[2]

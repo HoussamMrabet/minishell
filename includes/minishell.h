@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/11 20:20:44 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/12 08:14:46 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,10 @@ void	init_custom_env(t_minishell *minishell);
 void	set_env_value(t_minishell *minishell, char *env, char *value);
 void	set_fake_env_value(t_minishell *minishell, char *env, char *value);
 char	*get_env_value(t_minishell *minishell, char *str);
+void	remove_fake_env(t_minishell *minishell, char *var);
+void	remove_env(t_minishell *minishell, char *var);
+int		starts_with(char *s1, char *s2);
+void	sort_env(char **env);
 
 // signals
 void	handle_sigint(int signal);
@@ -150,6 +154,7 @@ char	*ft_echo(t_minishell *minishell, char *cmd);
 char	*ft_pwd(t_minishell *minishell);
 char	*ft_env(t_minishell *minishell);
 void	ft_export(t_minishell *minishell, char *cmd);
+void	ft_unset(t_minishell *minishell, char *cmd);
 
 // execution
 void	run_commands(t_minishell *minishell);
