@@ -6,13 +6,13 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:13:57 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 12:28:16 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/12 12:33:48 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	executer(t_minishell *minishell, char *cmd, char **args)
+static int	executer(t_minishell *minishell, char *cmd, char **args)
 {
 	int		status;
 	pid_t	pid;
@@ -28,7 +28,7 @@ int	executer(t_minishell *minishell, char *cmd, char **args)
 	return (status);
 }
 
-void	execute_cmd(t_minishell *minishell, char *cmd)
+static void	execute_cmd(t_minishell *minishell, char *cmd)
 {
 	char	**splited;
 	char	**secure_paths;

@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 06:41:00 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/11 19:46:49 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/12 12:35:41 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	merge_tokens(t_minishell *minishell, t_tokenizer **tokens)
 	}
 }
 
-void	split_commands(t_minishell *m, t_tokenizer **tokens)
+static void	split_commands(t_minishell *m, t_tokenizer **tokens)
 {
 	t_tokenizer	*tmp;
 
@@ -92,7 +92,7 @@ void	split_commands(t_minishell *m, t_tokenizer **tokens)
 	}
 }
 
-void	separate_wildcards(t_tokenizer **tokens)
+static void	separate_wildcards(t_tokenizer **tokens)
 {
 	t_tokenizer	*token;
 
