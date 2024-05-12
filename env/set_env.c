@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 18:56:41 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 08:20:37 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/12 09:24:14 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,14 @@ void	add_env_value(t_minishell *minishell, char *var, char *val)
 		new_env[i] = env[i];
 		i++;
 	}
-	new_env[i] = ft_strjoin(var, "=", &minishell->local);
-	new_env[i] = ft_strjoin(new_env[i], val, &minishell->global);
-	i++;
-	new_env[i] = NULL;
+	// if (!val[0])
+	// 	new_env[i] = ft_strdup(var, &minishell->global);
+	// else
+	// {
+		new_env[i] = ft_strjoin(var, "=", &minishell->local);
+		new_env[i] = ft_strjoin(new_env[i], val, &minishell->global);
+	// }
+	new_env[++i] = NULL;
 	minishell->env = new_env;
 	sort_env(minishell->env);
 }

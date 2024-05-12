@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 10:18:07 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/11 18:02:04 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/12 09:20:27 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 static char	**ft_get_paths(t_minishell *minishell)
 {
 	char	**res;
-	char	*env;
+	char	*path;
 
 	if (minishell->custom_env)
-		env = get_env_value(minishell, "PATH");
+		path = ft_strdup(_PATH_STDPATH, &minishell->global);
 	else
-		env = get_env_value(minishell, "PATH");
-	if (!env)
+		path = get_env_value(minishell, "PATH");
+	if (!path)
 		ft_exit("Allocation error", 1, minishell);
-	res = splitpaths(env, ':', &minishell->global);
+	res = splitpaths(path, ':', &minishell->global);
 	if (!res)
 		ft_exit("Allocation error", 1, minishell);
 	return (res);

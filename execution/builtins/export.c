@@ -6,9 +6,14 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:50:25 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 08:08:26 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/12 09:37:01 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+//export => values between ""
+//export var+=val
+//export l= => l=""
+//export l => l
 
 #include "minishell.h"
 
@@ -20,7 +25,7 @@ static int	check_syntax(char *var)
 	if (!var[i] || (!ft_isal(var[i]) && var[i] != '_'))
 		return (1);
 	i++;
-	while (var[i])
+	while (var[i] && var[i] != '=')
 	{
 		if (var[i] != '_' && !ft_isalnum(var[i]))
 			return (1);
@@ -86,6 +91,8 @@ void	ft_export(t_minishell *minishell, char *cmd)
 	{
 		while (splited[i])
 		{
+			if (splited[i][0] == 2)
+				splited[i][0] = '\0';
 			if (!check_syntax(splited[i]))
 			{
 				if (!ft_strchr(splited[i], '='))
@@ -96,7 +103,7 @@ void	ft_export(t_minishell *minishell, char *cmd)
 			else
 			{
 				status = 1;
-				printf("minishell: export: `%s': not a valid identifier\n", splited[0]);
+				printf("minishell: export: `%s': not a valid identifier\n", splited[i]);
 			}
 			i++;
 		}
