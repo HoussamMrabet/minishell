@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:11:51 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 06:39:24 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/12 20:55:36 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,7 @@ int	check_builtins(t_minishell *minishell, char *cmd)
 		return (ft_export(minishell, cmd), 0);
 	else if (!ft_strcmp(splited_cmd[0], "unset"))
 		return (ft_unset(minishell, cmd), 0);
+	else if (!ft_strcmp(splited_cmd[0], "cd"))
+		return (ft_cd(minishell, cmd), 0);
 	return (1);
 }

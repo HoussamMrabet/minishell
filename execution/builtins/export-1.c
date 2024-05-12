@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 11:57:26 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 11:59:34 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/12 20:43:11 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	assign_env(t_minishell *minishell, char *exp)
 	val = ft_strdup(exp + i, &minishell->local);
 	set_fake_env_value(minishell, var, val);
 	set_env_value(minishell, var, val);
+	if (!ft_strcmp(var, "PATH"))
+		minishell->paths = ft_split(val, ':', &minishell->global);
 }
 
 void	concat_env(t_minishell *minishell, char *exp)
@@ -60,4 +62,6 @@ void	concat_env(t_minishell *minishell, char *exp)
 		val = ft_strjoin(old_val, val, &minishell->local);
 	set_fake_env_value(minishell, var, val);
 	set_env_value(minishell, var, val);
+	if (!ft_strcmp(var, "PATH"))
+		minishell->paths = ft_split(val, ':', &minishell->global);
 }

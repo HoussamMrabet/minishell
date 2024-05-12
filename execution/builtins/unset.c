@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 05:25:47 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 12:21:07 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/12 20:47:24 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static void	handle_unset(t_minishell *minishell, char *splited, int *status)
 		splited[0] = '\0';
 	if (!check_syntax(splited))
 	{
+		if (!ft_strcmp(splited, "PATH"))
+			minishell->paths = ft_split("empty", ':', &minishell->global);
 		remove_env(minishell, splited);
 		remove_fake_env(minishell, splited);
 	}

@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 12:25:31 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/12 20:58:31 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ void	ft_export(t_minishell *minishell, char *cmd);
 void	assign_env(t_minishell *minishell, char *exp);
 void	concat_env(t_minishell *minishell, char *exp);
 void	ft_unset(t_minishell *minishell, char *cmd);
+void	ft_cd(t_minishell *minishell, char *cmd);
 
 // execution
 void	run_commands(t_minishell *minishell);
