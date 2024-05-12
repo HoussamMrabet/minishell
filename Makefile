@@ -6,7 +6,7 @@
 #    By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/04 16:56:33 by hmrabet           #+#    #+#              #
-#    Updated: 2024/05/12 08:21:01 by hmrabet          ###   ########.fr        #
+#    Updated: 2024/05/12 12:00:56 by hmrabet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRCS = main.c init_data.c exit_status.c \
 		lexer/lexer-0.c lexer/lexer-1.c lexer/lexer-2.c lexer/lexer-3.c \
 		parser/parser-0.c parser/expanding.c parser/wildcards.c \
 		execution/heredoc.c execution/execution.c \
-		execution/builtins/builtins.c execution/builtins/cd.c execution/builtins/echo.c execution/builtins/env.c execution/builtins/export.c execution/builtins/pwd.c execution/builtins/unset.c \
+		execution/builtins/builtins.c execution/builtins/cd.c execution/builtins/echo.c execution/builtins/env.c execution/builtins/export-0.c execution/builtins/export-1.c execution/builtins/pwd.c execution/builtins/unset.c \
 
 OBJS = $(SRCS:.c=.o)
 

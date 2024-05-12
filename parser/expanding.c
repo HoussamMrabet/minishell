@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 08:27:10 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/11 20:28:53 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/12 12:31:01 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static void	handle_text_expand2(t_minishell *m, char **tok, char **val, int *i)
 	char	*str;
 
 	if ((*tok)[(*i) + 1] == '?')
-	{
-		str = ft_itoa(&m->local, exit_status(0, FALSE));
-		(1) && (*val = ft_strjoin((*val), str, &m->local), (*i)++);
-	}
+		(1) && (str = ft_itoa(&m->local, exit_status(0, FALSE)),
+			*val = ft_strjoin((*val), str, &m->local), (*i)++);
+	else if ((*tok)[(*i) + 1] == '_')
+		(1) && (*val = ft_strjoin((*val), m->_, &m->local), (*i)++);
 	else if (!(*tok)[(*i) + 1] || !ft_isalnum((*tok)[(*i) + 1]))
 		(*val) = ft_strjoin((*val), "$", &m->local);
 	else
@@ -32,7 +32,7 @@ static void	handle_text_expand2(t_minishell *m, char **tok, char **val, int *i)
 		{
 			j++;
 			while ((*tok + (*i))[j] == '_' || ft_isalnum((*tok + (*i))[j]))
-				j++;	
+				j++;
 		}
 		(1) && (j--, str = ft_substr(&m->local, ((*tok + (*i)) + 1), 0, j));
 		(!str) && (j = ft_exit("Allocation error", 1, m));
@@ -79,10 +79,10 @@ static void	handle_quote_expand2(t_minishell *m, char **tok, char **val, int *i)
 	char	*str;
 
 	if ((*tok)[(*i) + 1] == '?')
-	{
-		str = ft_itoa(&m->local, exit_status(0, FALSE));
-		(1) && (*val = ft_strjoin((*val), str, &m->local), (*i)++);
-	}
+		(1) && (str = ft_itoa(&m->local, exit_status(0, FALSE)),
+			*val = ft_strjoin((*val), str, &m->local), (*i)++);
+	else if ((*tok)[(*i) + 1] == '_')
+		(1) && (*val = ft_strjoin((*val), m->_, &m->local), (*i)++);
 	else if ((*tok)[(*i) + 1] == '"' || !ft_isalnum((*tok)[(*i) + 1]))
 		(*val) = ft_strjoin((*val), "$", &m->local);
 	else
@@ -92,7 +92,7 @@ static void	handle_quote_expand2(t_minishell *m, char **tok, char **val, int *i)
 		{
 			j++;
 			while ((*tok + (*i))[j] == '_' || ft_isalnum((*tok + (*i))[j]))
-				j++;	
+				j++;
 		}
 		(1) && (j--, str = ft_substr(&m->local, ((*tok + (*i)) + 1), 0, j));
 		(!str) && (j = ft_exit("Allocation error", 1, m));

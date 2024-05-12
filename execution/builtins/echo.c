@@ -6,13 +6,13 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 14:46:12 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/11 19:31:48 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/12 12:31:18 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_echo(t_minishell *minishell, char *cmd)
+void	ft_echo(t_minishell *minishell, char *cmd)
 {
 	char	**cmd_splited;
 	char	*res;
@@ -28,8 +28,7 @@ char	*ft_echo(t_minishell *minishell, char *cmd)
 		(!ft_strcmp("-n", cmd_splited[i])) && (with_op = TRUE, i++);
 		while (cmd_splited[i])
 		{
-			if (res[0])
-				res = ft_strjoin(res, " ", &minishell->local);
+			(res[0]) && (res = ft_strjoin(res, " ", &minishell->local));
 			res = ft_strjoin(res, cmd_splited[i], &minishell->local);
 			if (!res)
 				ft_exit("Allocation error", 1, minishell);
@@ -39,6 +38,5 @@ char	*ft_echo(t_minishell *minishell, char *cmd)
 	(!with_op) && (res = ft_strjoin(res, "\n", &minishell->local));
 	if (!res)
 		ft_exit("Allocation error", 1, minishell);
-	printf("%s", res);
-	return (res);
+	ft_putstr_fd(res, 1);
 }

@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 09:15:55 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/12 12:25:31 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_minishell
 	char			**fake_env;
 	t_bool			custom_env;
 	char			**paths;
+	char			*_;
 	int				lvl;
 	t_tokenizer		*tokens;
 	t_cmdlist		*cmdlist;
@@ -150,10 +151,12 @@ int		exit_status(int new_status, t_bool to_set);
 
 // builtins
 int		check_builtins(t_minishell *minishell, char *cmd);
-char	*ft_echo(t_minishell *minishell, char *cmd);
+void	ft_echo(t_minishell *minishell, char *cmd);
 char	*ft_pwd(t_minishell *minishell);
 char	*ft_env(t_minishell *minishell);
 void	ft_export(t_minishell *minishell, char *cmd);
+void	assign_env(t_minishell *minishell, char *exp);
+void	concat_env(t_minishell *minishell, char *exp);
 void	ft_unset(t_minishell *minishell, char *cmd);
 
 // execution

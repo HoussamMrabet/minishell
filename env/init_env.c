@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 09:53:45 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 09:21:22 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/12 09:53:03 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	init_default_env(t_minishell *minishell, char **env)
 	}
 	minishell->env[i] = NULL;
 	minishell->fake_env[i] = NULL;
+	minishell->_ = get_env_value(minishell, "_");
 }
 
 void	init_custom_env(t_minishell *minishell)
@@ -51,14 +52,14 @@ void	init_custom_env(t_minishell *minishell)
 	minishell->env[1] = ft_strjoin("PWD=", cwd, &minishell->global);
 	minishell->env[2] = ft_strjoin("SHLVL=", "1", &minishell->global);
 	minishell->env[3] = NULL;
+	minishell->_ = ft_strjoin(cwd, "/./minishell", &minishell->global);
 	minishell->fake_env[0] = ft_strjoin("PWD=", cwd, &minishell->global);
 	minishell->fake_env[1] = ft_strjoin("SHLVL=", "1", &minishell->global);
-	minishell->fake_env[2] = ft_strjoin("_=", ft_strjoin(cwd, "/./minishell",
-				&minishell->local), &minishell->global);
+	minishell->fake_env[2] = ft_strjoin("_=", minishell->_, &minishell->global);
 	minishell->fake_env[3] = NULL;
 	free(cwd);
 	if (!minishell->env[0] || !minishell->env[1] || !minishell->env[2]
 		|| !minishell->fake_env[0] || !minishell->fake_env[1]
-			|| !minishell->fake_env[2])
+		|| !minishell->fake_env[2] || !minishell->_)
 		ft_exit("Allocation error", 1, minishell);
 }

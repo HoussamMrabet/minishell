@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 08:10:55 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 08:15:16 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/05/12 12:28:00 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	starts_with(char *s1, char *s2)
 	return (0);
 }
 
-void	sort_env(char **env) {
+void	sort_env(char **env)
+{
 	int		i;
 	int		j;
 	int		size;
