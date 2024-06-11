@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:51:44 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/06/10 22:39:18 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/06/11 09:12:39 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	here_doc_err(char *input)
 	int		i;
 
 	i = 0;
-	del = NULL;
 	while (input[i])
 	{
 		if (input[i] == '<' && input[i + 1] == '<')
@@ -67,6 +66,7 @@ void	here_doc_err(char *input)
 			delim = get_del(input + i);
 			if (delim)
 			{
+				del = NULL;
 				while (1)
 				{
 					free(del);
@@ -86,6 +86,7 @@ int	main(int c, char **v, char **env)
 {
 	char				*input;
 	t_minishell			minishell;
+	t_tokenizer			*tokens;
 
 	// atexit(leaks);
 	(1) && (c = 0, v = NULL, input = NULL, rl_catch_signals = 0);
@@ -115,7 +116,13 @@ int	main(int c, char **v, char **env)
 				continue ;
 			}
 			parser(&minishell);
-			run_commands(&minishell);
+			tokens = minishell.tokens;
+			while (tokens)
+			{
+				printf("token : %s, type : %d\n", tokens->token, tokens->type);
+				tokens = tokens->next;
+			}
+			// run_commands(&minishell);
 		}
 	}
 	free(input);
