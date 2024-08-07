@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:50:25 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 12:23:29 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/07/08 18:57:00 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,10 @@ void	ft_export(t_minishell *m, char *cmd)
 	(1) && (i[1] = 0, i[0] = -1);
 	while (cmd[++i[0]])
 		if (cmd[i[0]] == '\n' && (cmd[i[0] + 1] == '\n' || !cmd[i[0] + 1]))
-			(1) && (sub = ft_substr(&m->local, cmd, 0, i[0]),
-				sub = ft_strjoin(sub, "\n\002", &m->local),
-				cmd = ft_strjoin(sub, cmd + i[0] + 1, &m->local));
-	(1) && (splited = ft_split(cmd, '\n', &m->local), i[0] = 1);
+			(1) && (sub = ft_substr(m, cmd, 0, i[0]),
+				sub = ft_strjoin(sub, "\n\002", m, &m->local),
+				cmd = ft_strjoin(sub, cmd + i[0] + 1, m, &m->local));
+	(1) && (splited = ft_split_local(cmd, '\n', m), i[0] = 1);
 	(!splited[i[0]]) && export_print(m->env);
 	if (splited[i[0]])
 	{

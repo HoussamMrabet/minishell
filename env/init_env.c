@@ -6,60 +6,47 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 09:53:45 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 09:53:03 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/07/08 13:51:04 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_default_env(t_minishell *minishell, char **env)
+void	init_default_env(t_minishell *m, char **env)
 {
 	int	i;
 
 	i = ft_arrlen(env);
-	minishell->env = (char **)ft_malloc(&minishell->global,
+	m->env = (char **)ft_malloc(m, &m->global,
 			sizeof(char *) * (i + 1));
-	minishell->fake_env = (char **)ft_malloc(&minishell->global,
+	m->fake_env = (char **)ft_malloc(m, &m->global,
 			sizeof(char *) * (i + 1));
-	if (!minishell->env || !minishell->fake_env)
-		ft_exit("Allocation error", 1, minishell);
 	i = 0;
 	while (env[i])
 	{
-		minishell->env[i] = ft_strdup(env[i], &minishell->global);
-		minishell->fake_env[i] = ft_strdup(env[i], &minishell->global);
-		if (!minishell->env[i] || !minishell->fake_env[i])
-			ft_exit("Allocation error", 1, minishell);
+		m->env[i] = ft_strdup(env[i], m, &m->global);
+		m->fake_env[i] = ft_strdup(env[i], m, &m->global);
 		i++;
 	}
-	minishell->env[i] = NULL;
-	minishell->fake_env[i] = NULL;
-	minishell->_ = get_env_value(minishell, "_");
+	m->env[i] = NULL;
+	m->fake_env[i] = NULL;
+	m->_ = get_env_value(m, "_");
 }
 
-void	init_custom_env(t_minishell *minishell)
+void	init_custom_env(t_minishell *m)
 {
 	char	*cwd;
 
-	minishell->env = ft_malloc(&minishell->global, sizeof(char *) * 4);
-	minishell->fake_env = ft_malloc(&minishell->global, sizeof(char *) * 4);
-	if (!minishell->env || !minishell->fake_env)
-		ft_exit("Allocation error", 1, minishell);
-	(1) && (cwd = NULL, cwd = getcwd(NULL, 0));
-	if (!cwd)
-		ft_exit("getcwd failed", 1, minishell);
-	minishell->env[0] = ft_strjoin("OLDPWD", "", &minishell->global);
-	minishell->env[1] = ft_strjoin("PWD=", cwd, &minishell->global);
-	minishell->env[2] = ft_strjoin("SHLVL=", "1", &minishell->global);
-	minishell->env[3] = NULL;
-	minishell->_ = ft_strjoin(cwd, "/./minishell", &minishell->global);
-	minishell->fake_env[0] = ft_strjoin("PWD=", cwd, &minishell->global);
-	minishell->fake_env[1] = ft_strjoin("SHLVL=", "1", &minishell->global);
-	minishell->fake_env[2] = ft_strjoin("_=", minishell->_, &minishell->global);
-	minishell->fake_env[3] = NULL;
-	free(cwd);
-	if (!minishell->env[0] || !minishell->env[1] || !minishell->env[2]
-		|| !minishell->fake_env[0] || !minishell->fake_env[1]
-		|| !minishell->fake_env[2] || !minishell->_)
-		ft_exit("Allocation error", 1, minishell);
+	m->env = ft_malloc(m, &m->global, sizeof(char *) * 4);
+	m->fake_env = ft_malloc(m, &m->global, sizeof(char *) * 4);
+	(1) && (cwd = NULL, cwd = ft_getcwd(m));
+	m->env[0] = ft_strjoin("OLDPWD", "", m, &m->global);
+	m->env[1] = ft_strjoin("PWD=", cwd, m, &m->global);
+	m->env[2] = ft_strjoin("SHLVL=", "1", m, &m->global);
+	m->env[3] = NULL;
+	m->_ = ft_strjoin(cwd, "/./minishell", m, &m->global);
+	m->fake_env[0] = ft_strjoin("PWD=", cwd, m, &m->global);
+	m->fake_env[1] = ft_strjoin("SHLVL=", "1", m, &m->global);
+	m->fake_env[2] = ft_strjoin("_=", m->_, m, &m->global);
+	m->fake_env[3] = NULL;
 }

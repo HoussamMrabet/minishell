@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 11:57:26 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 20:43:11 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/07/08 18:47:47 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	assign_env(t_minishell *minishell, char *exp)
 	i = 0;
 	while (exp[i] && exp[i] != '=')
 		i++;
-	var = ft_malloc(&minishell->local, i + 1);
+	var = ft_malloc(minishell, &minishell->local, i + 1);
 	i = 0;
 	while (exp[i] && exp[i] != '=')
 	{
@@ -30,11 +30,11 @@ void	assign_env(t_minishell *minishell, char *exp)
 	}
 	var[i] = '\0';
 	i++;
-	val = ft_strdup(exp + i, &minishell->local);
+	val = ft_strdup(exp + i, minishell, &minishell->local);
 	set_fake_env_value(minishell, var, val);
 	set_env_value(minishell, var, val);
 	if (!ft_strcmp(var, "PATH"))
-		minishell->paths = ft_split(val, ':', &minishell->global);
+		minishell->paths = ft_split_global(val, ':', minishell);
 }
 
 void	concat_env(t_minishell *minishell, char *exp)
@@ -47,7 +47,7 @@ void	concat_env(t_minishell *minishell, char *exp)
 	i = 0;
 	while (exp[i] && exp[i] != '+')
 		i++;
-	var = ft_malloc(&minishell->local, i + 1);
+	var = ft_malloc(minishell, &minishell->local, i + 1);
 	i = 0;
 	while (exp[i] && exp[i] != '+')
 	{
@@ -56,12 +56,12 @@ void	concat_env(t_minishell *minishell, char *exp)
 	}
 	var[i] = '\0';
 	i += 2;
-	val = ft_strdup(exp + i, &minishell->local);
+	val = ft_strdup(exp + i, minishell, &minishell->local);
 	old_val = get_env_value(minishell, var);
 	if (old_val)
-		val = ft_strjoin(old_val, val, &minishell->local);
+		val = ft_strjoin(old_val, val, minishell, &minishell->local);
 	set_fake_env_value(minishell, var, val);
 	set_env_value(minishell, var, val);
 	if (!ft_strcmp(var, "PATH"))
-		minishell->paths = ft_split(val, ':', &minishell->global);
+		minishell->paths = ft_split_global(val, ':', minishell);
 }

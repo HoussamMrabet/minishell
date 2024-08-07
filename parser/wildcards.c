@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 16:34:06 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 12:35:03 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/07/08 10:55:25 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	*get_wild_files(t_minishell *minishell, char *token)
 	DIR				*my_dir;
 	struct dirent	*files;
 
-	res = ft_strdup("", &minishell->local);
+	res = ft_strdup("", minishell, &minishell->local);
 	my_dir = opendir(get_env_value(minishell, "PWD"));
 	if (my_dir == NULL)
 	{
@@ -61,8 +61,8 @@ static char	*get_wild_files(t_minishell *minishell, char *token)
 			break ;
 		if (file_match(token, files->d_name))
 		{
-			res = ft_strjoin(res, " ", &minishell->local);
-			res = ft_strjoin(res, files->d_name, &minishell->local);
+			res = ft_strjoin(res, " ", minishell, &minishell->local);
+			res = ft_strjoin(res, files->d_name, minishell, &minishell->local);
 		}
 	}
 	closedir(my_dir);
@@ -105,7 +105,7 @@ void	merge_wildcards(t_minishell *minishell)
 			&& token->next->type == WILD_CARD)
 		{
 			token->token = ft_strjoin(token->token,
-					token->next->token, &minishell->local);
+					token->next->token, minishell, &minishell->local);
 			token->next = token->next->next;
 		}
 		token = token->next;

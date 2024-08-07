@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heap.h                                             :+:      :+:    :+:   */
+/*   execute_node.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 15:55:46 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/20 08:56:28 by hmrabet          ###   ########.fr       */
+/*   Created: 2024/07/03 16:49:10 by hmrabet           #+#    #+#             */
+/*   Updated: 2024/07/16 13:31:25 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEAP_H
-# define HEAP_H
+#include "minishell.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-
-typedef struct s_block_memory
+void	prepare_node_for_execute(t_minishell *minishell, t_exec *node)
 {
-	void					*leak;
-	struct s_block_memory	*next;
-}	t_block_memory;
+	t_tokenizer	*tokens;
 
-void	*ft_malloc(t_block_memory **memory, size_t size);
-void	ft_free(t_block_memory **memory);
-
-#endif
+	tokens = node->tokens;
+	replace_expand_values(minishell, &tokens);
+	separate_wildcards(&tokens);
+	merge_tokens(minishell, &tokens);
+	split_commands(minishell, &tokens);
+	ft_wildcards(minishell);
+	merge_wildcards(minishell);
+	set_io_tokens(minishell, &node);
+}

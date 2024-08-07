@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:13:57 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 12:33:48 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/07/08 19:21:22 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,50 +28,51 @@ static int	executer(t_minishell *minishell, char *cmd, char **args)
 	return (status);
 }
 
-static void	execute_cmd(t_minishell *minishell, char *cmd)
+static void	not_found_cmd(t_minishell *m, char *cmd, char **sp, t_bool found)
+{
+	if (ft_strchr(sp[0], '/')
+		&& sp[0][ft_strlen(sp[0]) - 1] != '/')
+	{
+		if (sp[0][0] != '/')
+		{
+			cmd = ft_strjoin(get_env_value(m, "PWD"),
+					"/", m, &m->local);
+			cmd = ft_strjoin(cmd, sp[0], m, &m->local);
+		}
+		if (!found && !access(cmd, X_OK))
+		{
+			found = TRUE;
+			exit_status(executer(m, cmd, sp), TRUE);
+		}
+		else
+			printf("minishell: %s: command not found\n", cmd);
+	}
+	else
+		printf("minishell: %s: command not found\n", sp[0]);
+}
+
+static void	execute_cmd(t_minishell *m, char *cmd)
 {
 	char	**splited;
 	char	**secure_paths;
 	int		i;
 	t_bool	found;
 
-	i = 0;
-	found = FALSE;
-	splited = ft_split(cmd, '\n', &minishell->local);
-	secure_paths = minishell->paths;
+	(1) && (i = 0, found = FALSE, splited = ft_split_local(cmd, '\n', m));
+	secure_paths = m->paths;
 	while (secure_paths[i] && splited[0][0] != '/')
 	{
-		cmd = ft_strjoin(secure_paths[i], splited[0], &minishell->local);
+		cmd = ft_strjoin(secure_paths[i], splited[0], m, &m->local);
 		if (!access(cmd, X_OK))
 		{
 			found = TRUE;
-			exit_status(executer(minishell, cmd, splited), TRUE);
+			exit_status(executer(m, cmd, splited), TRUE);
 			break ;
 		}
 		i++;
 	}
 	if (!found)
-	{
-		if (ft_strchr(splited[0], '/')
-			&& splited[0][ft_strlen(splited[0]) - 1] != '/')
-		{
-			if (splited[0][0] != '/')
-			{
-				cmd = ft_strjoin(get_env_value(minishell, "PWD"),
-						"/", &minishell->local);
-				cmd = ft_strjoin(cmd, splited[0], &minishell->local);
-			}
-			if (!found && !access(cmd, X_OK))
-			{
-				found = TRUE;
-				exit_status(executer(minishell, cmd, splited), TRUE);
-			}
-			else
-				printf("minishell: %s: command not found\n", cmd);
-		}
-		else
-			printf("minishell: %s: command not found\n", splited[0]);
-	}
+		not_found_cmd(m, cmd, splited, found);
 }
 
 void	run_commands(t_minishell *minishell)

@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 05:25:47 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 20:47:24 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/07/08 18:57:00 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,16 @@ static int	check_syntax(char *var)
 	return (0);
 }
 
-static void	handle_unset(t_minishell *minishell, char *splited, int *status)
+static void	handle_unset(t_minishell *m, char *splited, int *status)
 {
 	if (splited[0] == 2)
 		splited[0] = '\0';
 	if (!check_syntax(splited))
 	{
 		if (!ft_strcmp(splited, "PATH"))
-			minishell->paths = ft_split("empty", ':', &minishell->global);
-		remove_env(minishell, splited);
-		remove_fake_env(minishell, splited);
+			m->paths = ft_split_global("empty", ':', m);
+		remove_env(m, splited);
+		remove_fake_env(m, splited);
 	}
 	else
 	{
@@ -58,12 +58,12 @@ void	ft_unset(t_minishell *minishell, char *cmd)
 	while (cmd[i])
 	{
 		if (cmd[i] == '\n' && (cmd[i + 1] == '\n' || !cmd[i + 1]))
-			(1) && (sub = ft_substr(&minishell->local, cmd, 0, i),
-			sub = ft_strjoin(sub, "\n\002", &minishell->local),
-			cmd = ft_strjoin(sub, cmd + i + 1, &minishell->local));
+			(1) && (sub = ft_substr(minishell, cmd, 0, i),
+			sub = ft_strjoin(sub, "\n\002", minishell, &minishell->local),
+			cmd = ft_strjoin(sub, cmd + i + 1, minishell, &minishell->local));
 		i++;
 	}
-	(1) && (splited = ft_split(cmd, '\n', &minishell->local), i = 1);
+	(1) && (splited = ft_split_global(cmd, '\n', minishell), i = 1);
 	while (splited[i])
 	{
 		handle_unset(minishell, splited[i], &status);

@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:11:51 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 20:55:36 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/07/08 18:47:24 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@ int	check_builtins(t_minishell *minishell, char *cmd)
 {
 	char	**splited_cmd;
 
-	splited_cmd = ft_split(cmd, '\n', &minishell->local);
-	if (!splited_cmd)
-		ft_exit("Allocation error", 1, minishell);
+	splited_cmd = ft_split_local(cmd, '\n', minishell);
 	if (!ft_strcmp(splited_cmd[0], "env"))
 		return (ft_env(minishell), 0);
 	else if (!ft_strcmp(splited_cmd[0], "echo"))

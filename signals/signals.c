@@ -6,13 +6,13 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 09:56:56 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/25 11:52:23 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/07/16 13:36:07 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_sigint(int signal)
+static void	handle_sigint(int signal)
 {
 	if (signal == SIGINT)
 	{
@@ -22,4 +22,10 @@ void	handle_sigint(int signal)
 		rl_redisplay();
 		exit_status(1, TRUE);
 	}
+}
+
+void	handle_signals(void)
+{
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handle_sigint);
 }

@@ -6,13 +6,13 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 08:10:38 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/09 14:51:47 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/07/16 14:00:41 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_substr(t_block_memory **g, char *s, unsigned int start, size_t len)
+char	*ft_substr(t_minishell *m, char *s, unsigned int start, size_t len)
 {
 	char	*res;
 	size_t	i;
@@ -21,16 +21,14 @@ char	*ft_substr(t_block_memory **g, char *s, unsigned int start, size_t len)
 		return (NULL);
 	if (start > ft_strlen(s))
 	{
-		res = (char *)ft_malloc(g, 1);
+		res = (char *)ft_malloc(m, &m->local, 1);
 		if (!res)
 			return (NULL);
 		return (res[0] = '\0', res);
 	}
 	if (len > ft_strlen(s + start))
 		len = ft_strlen(s + start);
-	res = (char *)ft_malloc(g, sizeof(char) * (len + 1));
-	if (!res)
-		return (NULL);
+	res = (char *)ft_malloc(m, &m->local, sizeof(char) * (len + 1));
 	i = 0;
 	while (i < len && *(s + start + i))
 	{
@@ -97,10 +95,11 @@ int	ft_exit(char *msg, int status, t_minishell *minishell)
 	if (msg)
 	{
 		ft_putstr_fd(msg, 2);
-		ft_putchar_fd('\n', 1);
+		ft_putchar_fd('\n', 2);
 	}
-	ft_free(&minishell->global);
-	ft_free(&minishell->local);
+	rl_clear_history();
+	close_fds(minishell);
+	ft_free_all(minishell);
 	exit(status);
 	return (0);
 }

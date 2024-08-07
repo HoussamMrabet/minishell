@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 10:18:07 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 20:36:33 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/07/16 13:56:45 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,12 @@ static char	**ft_get_paths(t_minishell *minishell)
 	if (minishell->paths)
 		return (minishell->paths);
 	if (minishell->custom_env)
-		path = ft_strdup(_PATH_STDPATH, &minishell->global);
+		path = ft_strdup(_PATH_STDPATH, minishell, &minishell->global);
 	else
 		path = get_env_value(minishell, "PATH");
 	if (!path)
-		path = ft_strdup(_PATH_STDPATH, &minishell->global);
-	if (!path)
-		ft_exit("Allocation error", 1, minishell);
-	res = splitpaths(path, ':', &minishell->global);
-	if (!res)
-		ft_exit("Allocation error", 1, minishell);
+		path = ft_strdup(_PATH_STDPATH, minishell, &minishell->global);
+	res = splitpaths(path, ':', minishell);
 	return (res);
 }
 
@@ -39,13 +35,9 @@ static void	ft_get_level(t_minishell *minishell)
 	char	*tmp;
 
 	tmp = get_env_value(minishell, "SHLVL");
-	if (!tmp)
-		ft_exit("Allocation error", 1, minishell);
 	lvl = ft_atoi(tmp);
 	lvl++;
-	tmp = ft_itoa(&minishell->local, lvl);
-	if (!tmp)
-		ft_exit("Allocation error", 1, minishell);
+	tmp = ft_itoa(minishell, &minishell->local, lvl);
 	set_env_value(minishell, "SHLVL", tmp);
 	set_fake_env_value(minishell, "SHLVL", tmp);
 	minishell->lvl = lvl;
@@ -53,11 +45,18 @@ static void	ft_get_level(t_minishell *minishell)
 
 void	init_data(t_minishell *minishell, char **env)
 {
+	minishell->max_fd = 2;
 	minishell->global = NULL;
 	minishell->local = NULL;
 	minishell->env = NULL;
 	minishell->fake_env = NULL;
+	minishell->paths = NULL;
+	minishell->tokens = NULL;
+	minishell->tree = NULL;
+	minishell->err.msg = NULL;
+	minishell->_ = NULL;
 	minishell->custom_env = FALSE;
+	minishell->input = NULL;
 	if (!env || !*env)
 	{
 		minishell->custom_env = TRUE;
