@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 11:33:40 by mel-hamd          #+#    #+#             */
-/*   Updated: 2024/08/26 18:06:10 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/26 20:04:31 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,22 @@ void	catch_error(t_minishell *mini, int i, char *command)
 {
 	if (i != 0)
 	{
+		ft_putstr_fd("minishell: ", 2);
 		if (i == 127 || i == -1)
 		{
-			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(command, 2);
 			ft_putstr_fd(": command not found\n", 2);
 		}
 		else if (i == 126)
 		{
-			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(command, 2);
 			ft_putstr_fd(": Permission denied\n", 2);
 		}
 		else
 		{
-			ft_putstr_fd(strerror(errno), 2);
-			ft_putstr_fd(" : ", 2);
 			ft_putstr_fd(command, 2);
+			ft_putstr_fd(": ", 2);
+			ft_putstr_fd(strerror(errno), 2);
 			ft_putchar_fd('\n', 2);
 		}
 		ft_exit(NULL, i, mini);
