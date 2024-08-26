@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:11:54 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/25 13:41:50 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/26 17:12:55 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,10 @@ static int	syntax_invalid1(t_minishell *m, char *input, int *i)
 			while (input[*i] && input[(*i)++] != '"')
 				;
 		}
+		else if (input[*i] == '&' && input[*i + 1] != '&')
+			return (m->err.msg = ft_strjoin(SYNTAX_MSG"`", ft_strjoin(ft_substr(m,
+							input + *i, 0, 2), "'\n", m, &m->local),
+					m, &m->local), 1);
 		else if (syntax_invalid2(m, input, i))
 			return (1);
 	}
