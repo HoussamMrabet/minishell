@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:55:49 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/07/16 13:35:10 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/26 07:40:51 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,8 @@ void	*ft_malloc(t_minishell *minishell, t_block_memory **memory, size_t size)
 		*memory = new;
 	else
 	{
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
+		new->next = *memory;
+		*memory = new;
 	}
 	return (res);
 }
