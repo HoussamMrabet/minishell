@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 13:56:04 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/24 17:46:37 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/26 18:20:33 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,28 @@ t_atoul	ft_atoul(char *str)
 		i++;
 	}
 	return (sign * res);
+}
+
+int	strlen_nbr(char *nbr)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	len = 0;
+	while (nbr[i] && (nbr[i] == ' ' || (nbr[i] >= 9 && nbr[i] <= 13)))
+		i++;
+	if (nbr[i] == '-' || nbr[i] == '+')
+	{
+		i++;
+		len++;
+	}
+	while (nbr[i] && nbr[i] == '0')
+		i++;
+	while (nbr[i] && (nbr[i] >= '0' && nbr[i] <= '9'))
+	{
+		len++;
+		i++;
+	}
+	return (len);
 }
