@@ -1,6 +1,5 @@
 # MINISHELL
 
 ## Errors to handle:
-### - protect ft_getcwd when giving NULL
-### - export l=$k
+### - possible segv in lexer
 ### - hanging if big input value

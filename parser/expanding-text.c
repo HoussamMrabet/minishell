@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 10:45:53 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/25 06:22:43 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/26 06:21:19 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	handle_text_expand(t_minishell *m, t_tokenizer *tok, char **tokens)
 				replace_val(&val);
 				(tok && ft_strchr(val, '\002')) && (tok->amb = TRUE);
 			}
+			tok->is_expand = TRUE;
 		}
 		else
 			handle_text_expand4(m, tokens, &val, &i);

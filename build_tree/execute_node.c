@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 16:49:10 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/25 17:07:19 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/26 07:10:09 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static void	split_items(t_minishell *m, t_tokenizer **tokens)
 	int			i;
 
 	items = ft_split_local((*tokens)->token, '\002', m);
-	(1) && (token = (*tokens)->next, o = *tokens, i = 0);
-	while (items && items[i])
+	(1) && (token = (*tokens)->next, o = *tokens, i = -1);
+	while (items && items[++i])
 	{
 		if (i == 0)
 			(*tokens)->token = ft_strdup(items[i], m, &m->local);
@@ -34,18 +34,20 @@ static void	split_items(t_minishell *m, t_tokenizer **tokens)
 			(1) && (new->next = token, (*tokens)->next = new, *tokens = new);
 			new = ft_malloc(m, &m->local, sizeof(t_tokenizer));
 			(1) && (new->amb = o->amb, new->type = o->type, new->lvl = o->lvl);
+			(1) && (new->chain = i, new->is_expand = (*tokens)->is_expand);
 			new->token = ft_strdup(items[i], m, &m->local);
 			(1) && (new->next = token, (*tokens)->next = new, *tokens = new);
 		}
-		i++;
 	}
 }
 
 static void	split_expands(t_minishell *m, t_tokenizer **t)
 {
 	t_tokenizer	*token;
+	t_bool		sbool;
 
 	token = *t;
+	sbool = FALSE;
 	while (token)
 	{
 		if (token->type == TEXT && token->amb == FALSE)

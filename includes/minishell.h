@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/26 05:45:01 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/26 06:18:56 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ typedef struct s_tokenizer
 	t_type				type;
 	unsigned int		lvl;
 	t_bool				amb;
+	t_bool				is_expand;
+	int					chain;
 	struct s_tokenizer	*next;
 }	t_tokenizer;
 

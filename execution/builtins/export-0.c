@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export-0.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:50:25 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/25 16:35:50 by mel-hamd         ###   ########.fr       */
+/*   Updated: 2024/08/26 07:14:22 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,33 @@ static int	export_print(char	**env, t_exec *tree)
 	return (0);
 }
 
+static void	handle_special_cases(t_minishell *m, t_exec *tree)
+{
+	t_tokenizer	*t;
+	t_tokenizer	*tmp;
+
+	t = tree->tokens->next;
+	while (t)
+	{
+		if (t->type != SPACES && t->is_expand
+			&& ft_strchr(t->token, '='))
+		{
+			tmp = t->next;
+			if (tmp && tmp->type == SPACES)
+				tmp = tmp->next;
+			if (tmp && tmp->chain == t->chain + 1)
+			{
+				t->token = ft_strjoin(t->token, " ", m, &m->local);
+				t->token = ft_strjoin(t->token, tmp->token, m, &m->local);
+				t->chain += 1;
+				t->next = tmp->next;
+				continue ;
+			}
+		}
+		t = t->next;
+	}
+}
+
 void	ft_export(t_minishell *m, t_exec *tree)
 {
 	t_tokenizer	*token;
@@ -46,6 +73,7 @@ void	ft_export(t_minishell *m, t_exec *tree)
 	(1) && (token = tree->tokens, token = token->next);
 	(token && token->type == SPACES) && (token = token->next);
 	(!token) && (export_print(m->env, tree));
+	handle_special_cases(m, tree);
 	while (token)
 	{
 		if (token->type != SPACES)
