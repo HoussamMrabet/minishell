@@ -6,7 +6,7 @@
 /*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 11:31:22 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/26 08:44:12 by mel-hamd         ###   ########.fr       */
+/*   Updated: 2024/08/26 16:19:01 by mel-hamd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	add_token(t_tokenizer **tokens, t_tokenizer *new)
 	{
 		tmp = tmp->last;
 		tmp->next = new;
+		(*tokens)->last = new;
 	}
 }
 
