@@ -3,8 +3,6 @@
 ## Errors to handle:
 ### - possible segv in lexer
 
-### - cat &
-
 ### - cd $PWD hi
 
 ### - exit MALLONG || exit MINLLONG
