@@ -3,30 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   iofiles_checker_builtins.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 17:09:07 by mel-hamd          #+#    #+#             */
-/*   Updated: 2024/08/26 17:44:08 by mel-hamd         ###   ########.fr       */
+/*   Updated: 2024/08/26 18:08:52 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_ambig_builtin(t_bool val, char *str)
-{
-	if (val)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		reverse_str(&str);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": ambiguous redirect\n", 2);
-		exit_status(1, 1);
-		return (1);
-	}
-	return (0);
-}
-
-int	open_append_builtin(t_exec *tree, int *fdout)
+static int	red_app(t_exec *tree, int *fdout)
 {
 	if (check_ambig_builtin(tree->iofiles->amb, tree->iofiles->token))
 		return (1);
@@ -38,7 +24,7 @@ int	open_append_builtin(t_exec *tree, int *fdout)
 	return (0);
 }
 
-int	open_rdout_builtin(t_exec *tree, int *fdout)
+static int	red_out(t_exec *tree, int *fdout)
 {
 	if (check_ambig_builtin(tree->iofiles->amb, tree->iofiles->token))
 		return (1);
@@ -50,7 +36,7 @@ int	open_rdout_builtin(t_exec *tree, int *fdout)
 	return (0);
 }
 
-int	open_rdin_bultin(t_exec *tree, int *fdin)
+static int	red_in(t_exec *tree, int *fdin)
 {
 	if (check_ambig_builtin(tree->iofiles->amb, tree->iofiles->token))
 		return (1);
@@ -62,6 +48,17 @@ int	open_rdin_bultin(t_exec *tree, int *fdin)
 	return (0);
 }
 
+static int	destroy_fds(t_exec *tree, int fd0, int fd1)
+{
+	if (tree->fdout != fd1 && tree->fdout != 1)
+		return (catch_error_builtin(close(tree->fdout), NULL), 1);
+	if (tree->fdin != fd0 && tree->fdin != 0)
+		return (catch_error_builtin(close(tree->fdin), NULL), 1);
+	if (!tree->tokens)
+		return (1);
+	return (0);
+}
+
 int	open_files_builtin(t_exec *tree)
 {
 	int	fds[2];
@@ -69,11 +66,11 @@ int	open_files_builtin(t_exec *tree)
 	(1) && (fds[0] = tree->fdin, fds[1] = tree->fdout);
 	while (tree->iofiles)
 	{
-		if (tree->iofiles->type == APPEND && open_append_builtin(tree, &fds[1]))
+		if (tree->iofiles->type == APPEND && red_app(tree, &fds[1]))
 			return (1);
-		else if (tree->iofiles->type == OUT_RED && open_rdout_builtin(tree, &fds[1]))
+		else if (tree->iofiles->type == OUT_RED && red_out(tree, &fds[1]))
 			return (1);
-		else if (tree->iofiles->type == IN_RED && open_rdin_bultin(tree, &fds[0]))
+		else if (tree->iofiles->type == IN_RED && red_in(tree, &fds[0]))
 			return (1);
 		else if (tree->iofiles->type == DEL)
 		{
@@ -83,11 +80,7 @@ int	open_files_builtin(t_exec *tree)
 		}
 		tree->iofiles = tree->iofiles->next;
 	}
-	if (tree->fdout != fds[1] && tree->fdout != 1)
-		return (catch_error_builtin(close(tree->fdout), NULL), 1);
-	if (tree->fdin != fds[0] && tree->fdin != 0)
-		return (catch_error_builtin(close(tree->fdin), NULL), 1);
-	if (!tree->tokens)
+	if (destroy_fds(tree, fds[0], fds[1]))
 		return (1);
 	return (tree->fdin = fds[0], tree->fdout = fds[1], 0);
 }

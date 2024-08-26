@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_utils.c                                  :+:      :+:    :+:   */
+/*   execution_utils-1.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 11:33:40 by mel-hamd          #+#    #+#             */
-/*   Updated: 2024/08/26 17:46:27 by mel-hamd         ###   ########.fr       */
+/*   Updated: 2024/08/26 18:06:10 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,41 +91,16 @@ void	close_fds_child(t_minishell *mini, int fdin, int fdout, t_exec *tree)
 		catch_error(mini, close(fdout), "close");
 }
 
-int	close_fds_child_btn(int fdin, int fdout, t_exec *tree)
+int	check_ambig_builtin(t_bool val, char *str)
 {
-	if (fdin == tree->fdin && fdout == tree->fdout)
-		return (0);
-	if (fdin != tree->fdin && fdin != 0)
-		return (catch_error_builtin(close(fdin), "close"), 1);
-	else if (fdout != tree->fdout && fdout != 1)
-		return (catch_error_builtin(close(fdout), "close"), 1);
-	return (0);
-}
-
-void	catch_error_builtin(int i, char *command)
-{
-	if (i != 0)
+	if (val)
 	{
-		if (i == 127 || i == -1)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(command, 2);
-			ft_putstr_fd(": command not found\n", 2);
-		}
-		else if (i == 126)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(command, 2);
-			ft_putstr_fd(": Permission denied\n", 2);
-		}
-		else
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(command, 2);
-			ft_putstr_fd(": ", 2);
-			ft_putstr_fd(strerror(errno), 2);
-			ft_putchar_fd('\n', 2);
-		}
-		exit_status(i, 1);
+		ft_putstr_fd("minishell: ", 2);
+		reverse_str(&str);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": ambiguous redirect\n", 2);
+		exit_status(1, 1);
+		return (1);
 	}
+	return (0);
 }

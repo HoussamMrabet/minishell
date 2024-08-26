@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+         #
+#    By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/04 16:56:33 by hmrabet           #+#    #+#              #
-#    Updated: 2024/08/26 17:36:10 by mel-hamd         ###   ########.fr        #
+#    Updated: 2024/08/26 18:02:09 by hmrabet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,8 @@ SRCS = main.c init_data.c exit_status.c \
 		build_tree/build_tree-0.c build_tree/build_tree-1.c build_tree/build_tree-2.c build_tree/execute_node.c build_tree/helper.c \
 		execution/prepare_exec.c \
 		execution/execute_all.c \
-		execution/execution_utils.c \
+		execution/execution_utils-0.c \
+		execution/execution_utils-1.c \
 		execution/iofiles_checker.c \
 		execution/ft_get_path.c \
 		execution/file_descriptors.c \
