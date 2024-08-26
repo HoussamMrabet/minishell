@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer-0.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 11:31:22 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/26 06:20:03 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/26 08:44:12 by mel-hamd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ void	add_token(t_tokenizer **tokens, t_tokenizer *new)
 	new->chain = 0;
 	new->is_expand = FALSE;
 	if (!tmp)
+	{
 		*tokens = new;
+		(*tokens)->last = new;
+	}
 	else
 	{
-		while (tmp->next)
-			tmp = tmp->next;
+		tmp = tmp->last;
 		tmp->next = new;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils-3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 06:46:42 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/19 14:06:12 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/26 08:45:20 by mel-hamd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,6 @@ t_tokenizer	*token_dup(t_minishell *minishell, t_tokenizer *token)
 	res->type = token->type;
 	res->token = ft_strdup(token->token, minishell, &minishell->local);
 	res->next = NULL;
+	res->last = NULL;
 	return (res);
 }

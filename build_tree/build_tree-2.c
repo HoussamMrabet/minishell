@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_tree-2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 22:59:57 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/25 08:00:58 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/26 08:44:38 by mel-hamd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,16 @@ static void	add_token_tree(t_tokenizer **tokens, t_tokenizer *new)
 
 	tmp = *tokens;
 	if (!tmp)
+	{
 		*tokens = new;
+		(*tokens)->last = new;
+	}
 	else
 	{
-		while (tmp->next)
-			tmp = tmp->next;
+		tmp = tmp->last;
 		tmp->next = new;
 		tmp->next->next = NULL;
+		(*tokens)->last = new;
 	}
 }
 
