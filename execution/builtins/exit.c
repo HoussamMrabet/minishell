@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 11:03:36 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/26 18:16:04 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/26 18:34:06 by mel-hamd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int	ft_exit_builtin2(t_minishell *m, t_exec *tree, t_tokenizer **tok)
 		exit_status(1, TRUE);
 		return (1);
 	}
-	else if (!within_range(ft_strtrim(m, (*tok)->token, " \002")))
+	else if (!overfllow_checker(ft_strtrim(m, (*tok)->token, " \002")))
 	{
 		if (ft_num_required(m, (*tok)->token, tree))
 			return (1);

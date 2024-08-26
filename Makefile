@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+         #
+#    By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/04 16:56:33 by hmrabet           #+#    #+#              #
-#    Updated: 2024/08/26 18:02:09 by hmrabet          ###   ########.fr        #
+#    Updated: 2024/08/26 18:30:52 by mel-hamd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRCS = main.c init_data.c exit_status.c \
 		execution/file_descriptors.c \
 		execution/run_command.c \
 		execution/iofiles_checker_builtins.c \
+		execution/builtins/exit2.c \
 
 OBJS = $(SRCS:.c=.o)
 

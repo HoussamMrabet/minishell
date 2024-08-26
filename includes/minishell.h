@@ -6,7 +6,7 @@
 /*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/26 17:42:18 by mel-hamd         ###   ########.fr       */
+/*   Updated: 2024/08/26 18:30:35 by mel-hamd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,4 +289,5 @@ int			open_rdin_bultin(t_exec *tree, int *fdin);
 int			open_rdout_builtin(t_exec *tree, int *fdout);
 int			open_append_builtin(t_exec *tree, int *fdout);
 int			check_ambig_builtin(t_bool val, char *str);
+int			overfllow_checker(char *str);
 #endif
