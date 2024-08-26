@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export-0.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:50:25 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/26 07:14:22 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/26 17:47:51 by mel-hamd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ void	ft_export(t_minishell *m, t_exec *tree)
 	t_tokenizer	*token;
 	char		**cmd;
 
-	open_files(m, tree);
+	if (open_files_builtin(tree))
+		return ;
 	(1) && (token = tree->tokens, token = token->next);
 	(token && token->type == SPACES) && (token = token->next);
 	(!token) && (export_print(m->env, tree));

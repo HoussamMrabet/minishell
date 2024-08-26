@@ -6,7 +6,7 @@
 /*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 14:46:12 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/26 16:24:49 by mel-hamd         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:43:29 by mel-hamd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	ft_echo(t_minishell *m, t_exec *tree)
 	t_tokenizer	*token;
 	t_bool		with_op;
 
-	open_files(m, tree);
+	if (open_files_builtin(tree))
+		return ;
 	token = tree->tokens->next;
 	(1) && (with_op = FALSE, res = ft_strdup("", m, &m->local));
 	(token && token->type == SPACES) && (token = token->next);

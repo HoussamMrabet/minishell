@@ -6,7 +6,7 @@
 /*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:45:30 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/25 16:48:20 by mel-hamd         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:48:12 by mel-hamd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	ft_pwd(t_minishell *m, t_exec *tree)
 {
 	char	*pwd;
 
-	open_files(m, tree);
+	if (open_files_builtin(tree))
+		return ;
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{

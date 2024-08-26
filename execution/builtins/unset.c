@@ -6,7 +6,7 @@
 /*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 05:25:47 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/25 16:48:31 by mel-hamd         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:48:23 by mel-hamd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ void	ft_unset(t_minishell *m, t_exec *tree)
 	char		**id;
 
 	exit_status(0, TRUE);
-	open_files(m, tree);
+	if (open_files_builtin(tree))
+		return ;
 	token = tree->tokens->next;
 	while (token)
 	{

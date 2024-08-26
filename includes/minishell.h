@@ -6,7 +6,7 @@
 /*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/26 08:49:06 by mel-hamd         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:42:18 by mel-hamd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,5 +282,11 @@ void		signals_handle(t_minishell *mini, t_exec *tree);
 void		process_code(t_exec *tree, t_minishell *mini);
 void		close_sibling_fd(t_exec *tree);
 void		fun_error(t_minishell *mini, int i, char *str);
-
+int			close_fds_child_btn(int fdin, int fdout, t_exec *tree);
+void		catch_error_builtin(int i, char *command);
+int			open_files_builtin(t_exec *tree);
+int			open_rdin_bultin(t_exec *tree, int *fdin);
+int			open_rdout_builtin(t_exec *tree, int *fdout);
+int			open_append_builtin(t_exec *tree, int *fdout);
+int			check_ambig_builtin(t_bool val, char *str);
 #endif

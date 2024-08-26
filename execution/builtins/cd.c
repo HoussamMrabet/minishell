@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 20:54:30 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/26 05:46:52 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/26 17:47:17 by mel-hamd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ void	ft_cd(t_minishell *m, t_exec *tree)
 	t_bool		oldpath;
 	t_tokenizer	*tok;
 
-	open_files(m, tree);
+	if (open_files_builtin(tree))
+		return ;
 	(1) && (tok = tree->tokens, tok = tok->next, oldpath = FALSE);
 	(tok && tok->type == SPACES) && (tok = tok->next);
 	if (!tok)
