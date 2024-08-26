@@ -6,53 +6,76 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 20:54:30 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 21:44:34 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/26 05:46:52 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	change_values(t_minishell *minishell, char *target, t_bool oldpath)
+static void	change_values(t_exec *t, t_minishell *m, char *target, t_bool old)
 {
 	char	*cwd;
 
-	if (oldpath)
-		printf("%s\n", target);
-	set_env_value(minishell, "OLDPWD", get_env_value(minishell, "PWD"));
-	set_fake_env_value(minishell, "OLDPWD", get_env_value(minishell, "PWD"));
-	cwd = getcwd(NULL, 0);
-	set_env_value(minishell, "PWD", cwd);
-	set_fake_env_value(minishell, "PWD", cwd);
-	free(cwd);
+	(old) && (old = printf("%s\n", target));
+	if (!t->is_pipe)
+	{
+		set_env_value(m, "OLDPWD", get_env_value(m, "PWD"));
+		set_fake_env_value(m, "OLDPWD", get_env_value(m, "PWD"));
+		cwd = ft_getcwd(m);
+		if (!cwd)
+		{
+			set_env_value(m, "PWD", ft_strjoin(m->pwd, "/..", m, &m->local));
+			set_fake_env_value(m, "PWD",
+				ft_strjoin(m->pwd, "/..", m, &m->local));
+			m->pwd = ft_strdup(ft_strjoin(m->pwd, "/..", m, &m->local),
+					m, &m->global);
+			ft_putstr_fd(CD_ERR_MSG1 CD_ERR_MSG2, 2);
+		}
+		else
+		{
+			set_env_value(m, "PWD", cwd);
+			set_fake_env_value(m, "PWD", cwd);
+			m->pwd = ft_strdup(cwd, m, &m->global);
+		}
+	}
 	exit_status(0, TRUE);
 }
 
-void	ft_cd(t_minishell *minishell, char *cmd)
+static int	handle_dash(t_minishell *m, char **target, t_bool *oldpath)
 {
-	char	**splited;
-	char	*target;
-	t_bool	oldpath;
-	
-	(1) && (oldpath = FALSE, splited = ft_split(cmd, '\n', &minishell->local));
-	(!splited[1]) && (target = "~");
-	(splited[1]) && (target = splited[1]);
-	(target[0] == '~') && (cmd = getenv("HOME"),
-			target = ft_strjoin(cmd, target + 1, &minishell->local));
-	if (!ft_strcmp(target, "-"))
+	1 && (*target = get_env_value(m, "OLDPWD"), *oldpath = TRUE);
+	if (!target || !*target || !*target[0])
 	{
-		(1) && (oldpath = TRUE, target = get_env_value(minishell, "OLDPWD"));
-		if (!target[0])
-		{
-			printf("minishell: cd: OLDPWD not set\n");
-			exit_status(1, TRUE);
-			return ;
-		}
+		ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
+		exit_status(1, TRUE);
+		return (1);
 	}
-	if (chdir(target))
+	return (0);
+}
+
+void	ft_cd(t_minishell *m, t_exec *tree)
+{
+	char		*target;
+	t_bool		oldpath;
+	t_tokenizer	*tok;
+
+	open_files(m, tree);
+	(1) && (tok = tree->tokens, tok = tok->next, oldpath = FALSE);
+	(tok && tok->type == SPACES) && (tok = tok->next);
+	if (!tok)
+		target = m->home;
+	else if (!ft_strcmp(tok->token, "-"))
+	{
+		if (handle_dash(m, &target, &oldpath))
+			return ;
+	}
+	else
+		target = ft_strdup(tok->token, m, &m->local);
+	if (!tree->is_pipe && chdir(target))
 	{
 		exit_status(1, TRUE);
 		perror("minishell: cd");
 	}
 	else
-		change_values(minishell, target, oldpath);
-} 
+		change_values(tree, m, target, oldpath);
+}

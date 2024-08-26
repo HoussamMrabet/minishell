@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heap.h                                             :+:      :+:    :+:   */
+/*   file_descriptors.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 15:55:46 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/20 08:56:28 by hmrabet          ###   ########.fr       */
+/*   Created: 2024/08/23 14:00:29 by mel-hamd          #+#    #+#             */
+/*   Updated: 2024/08/25 19:38:18 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEAP_H
-# define HEAP_H
+#include "minishell.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-
-typedef struct s_block_memory
+void	close_sibling_fd(t_exec *tree)
 {
-	void					*leak;
-	struct s_block_memory	*next;
-}	t_block_memory;
-
-void	*ft_malloc(t_block_memory **memory, size_t size);
-void	ft_free(t_block_memory **memory);
-
-#endif
+	if (!tree)
+		return ;
+	if (tree->fdin != 0)
+		close(tree->fdin);
+	if (tree->fdout != 1)
+		close(tree->fdout);
+	close_sibling_fd(tree->left);
+	close_sibling_fd(tree->right);
+}

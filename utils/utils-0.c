@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 10:00:47 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/04/24 09:48:13 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/07/08 10:16:03 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strjoin(char *s1, char *s2, t_block_memory **garbage)
+char	*ft_strjoin(char *s1, char *s2, t_minishell *m, t_block_memory **g)
 {
 	char	*str;
 	size_t	i;
@@ -32,9 +32,7 @@ char	*ft_strjoin(char *s1, char *s2, t_block_memory **garbage)
 		return (NULL);
 	i = 0;
 	j = 0;
-	str = (char *)ft_malloc(garbage, ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!str)
-		return (NULL);
+	str = (char *)ft_malloc(m, g, ft_strlen(s1) + ft_strlen(s2) + 1);
 	while (*(s1 + i))
 	{
 		*(str + i) = *(s1 + i);
@@ -49,15 +47,13 @@ char	*ft_strjoin(char *s1, char *s2, t_block_memory **garbage)
 	return (str);
 }
 
-char	*ft_strdup(char *s1, t_block_memory **garbage)
+char	*ft_strdup(char *s1, t_minishell *m, t_block_memory **garbage)
 {
 	char	*str;
 	size_t	i;
 
 	i = 0;
-	str = (char *)ft_malloc(garbage, ft_strlen(s1) + 1);
-	if (!str)
-		return (NULL);
+	str = (char *)ft_malloc(m, garbage, ft_strlen(s1) + 1);
 	while (*(s1 + i))
 	{
 		*(str + i) = *(s1 + i);

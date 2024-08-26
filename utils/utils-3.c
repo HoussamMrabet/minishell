@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 06:46:42 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/11 20:20:28 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/19 14:06:12 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_bool	ft_isalnum(char c)
 		|| (c >= 'a' && c <= 'z'));
 }
 
-int	ft_strcmp(const char *s1, const char *s2)
+int	ft_strcmp(char *s1, char *s2)
 {
 	size_t	i;
 
@@ -51,4 +51,16 @@ int	ft_strcmp(const char *s1, const char *s2)
 		i++;
 	}
 	return (0);
+}
+
+t_tokenizer	*token_dup(t_minishell *minishell, t_tokenizer *token)
+{
+	t_tokenizer	*res;
+
+	res = ft_malloc(minishell, &minishell->local, sizeof(t_tokenizer));
+	res->lvl = token->lvl;
+	res->type = token->type;
+	res->token = ft_strdup(token->token, minishell, &minishell->local);
+	res->next = NULL;
+	return (res);
 }

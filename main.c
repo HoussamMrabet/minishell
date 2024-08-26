@@ -6,127 +6,73 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:51:44 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/06/11 09:12:39 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/25 16:15:13 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	leaks(void)
+static int	handle_input(t_minishell *minishell)
 {
-	system("leaks minishell");
+	int	secured_input;
+
+	if (!minishell->input[0])
+		return (1);
+	if (lexer(minishell, minishell->input)
+		|| check_op_syntax(minishell))
+	{
+		exit_status(258, TRUE);
+		ft_putstr_fd(minishell->err.msg, 2);
+		secured_input = dup(0);
+		signal(SIGINT, heredoc_signal);
+		here_doc_err(minishell, minishell->input);
+		heredoc_status(0, TRUE);
+		dup2(secured_input, 0);
+		close(secured_input);
+		tcgetattr(STDIN_FILENO, &minishell->termios);
+		return (1);
+	}
+	if (parser(minishell))
+		return (1);
+	add_pipes(minishell->tree, 0, 1, minishell);
+	execute_all(minishell->tree, minishell);
+	return (0);
 }
 
-char	*get_del(char *input)
+static void	check_tty(void)
 {
-	char	*del;
-	int		j;
-	int		i;
-
-	j = 0;
-	i = 0;
-	while (input[i] && input[i] != ' ' && input[i] != '<' && input[i] != '>' && input[i] != '|' && input[i] != '&' && input[i] != '(' && input[i] != ')')
+	if (!isatty(0) || !isatty(1) || !isatty(2))
 	{
-		if (input[i] != '\'' && input[i] != '"')
-			j++;
-		i++;
-	}
-	i = 0;
-	del = malloc(j + 1);
-	if (!del || j == 0)
-		return (NULL);
-	j = 0;
-	while (input[i] && input[i] != ' ' && input[i] != '<' && input[i] != '>' && input[i] != '|' && input[i] != '&' && input[i] != '(' && input[i] != ')')
-	{
-		if (input[i] != '\'' && input[i] != '"')
-		{
-			del[j] = input[i];
-			j++;
-		}
-		i++;
-	}
-	del[j] = '\0';
-	return (del);
-}
-
-void	here_doc_err(char *input)
-{
-	char	*delim;
-	char	*del;
-	int		i;
-
-	i = 0;
-	while (input[i])
-	{
-		if (input[i] == '<' && input[i + 1] == '<')
-		{
-			i += 2;
-			while (input[i] == ' ')
-				i++;
-			delim = get_del(input + i);
-			if (delim)
-			{
-				del = NULL;
-				while (1)
-				{
-					free(del);
-					del = readline("> ");
-					if (!del || !ft_strcmp(delim, del))
-						break ;
-				}
-				free(del);
-			}
-			free(delim);
-		}
-		i++;
+		ft_putstr_fd("minishell: unsecured source!\n", 2);
+		exit(1);
 	}
 }
 
 int	main(int c, char **v, char **env)
 {
-	char				*input;
 	t_minishell			minishell;
-	t_tokenizer			*tokens;
 
-	// atexit(leaks);
-	(1) && (c = 0, v = NULL, input = NULL, rl_catch_signals = 0);
+	(1) && (c = 0, v = NULL, rl_catch_signals = 0);
+	check_tty();
 	init_data(&minishell, env);
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, handle_sigint);
+	tcgetattr(STDIN_FILENO, &minishell.termios);
 	while (1)
 	{
-		free(input);
-		input = readline("minishell >$ ");
-		if (!input || is_equal(input, "exit"))
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, handle_sigint);
+		ft_free(&minishell.local);
+		close_fds(&minishell);
+		minishell.input = ft_readline(&minishell, "minishell >$ ", TRUE);
+		if (!minishell.input)
+			return (write(1, "\x1B[Fminishell >$ exit\n", 21),
+				ft_free_all(&minishell),
+				rl_clear_history(), exit_status(0, FALSE));
+		if (minishell.input)
 		{
-			write(1, "exit\n", 6);
-			rl_clear_history();
-			break ;
-		}
-		if (*input)
-		{
-			add_history(input);
-			if (lexer(&minishell, input)
-				|| check_op_syntax(&minishell))
-			{
-				exit_status(258, TRUE);
-				ft_putstr_fd("Syntax error !\n", 2);
-				here_doc_err(input);
-				ft_free(&minishell.local);
+			if (handle_input(&minishell))
 				continue ;
-			}
-			parser(&minishell);
-			tokens = minishell.tokens;
-			while (tokens)
-			{
-				printf("token : %s, type : %d\n", tokens->token, tokens->type);
-				tokens = tokens->next;
-			}
-			// run_commands(&minishell);
 		}
+		tcsetattr(STDIN_FILENO, TCSANOW, &minishell.termios);
 	}
-	free(input);
-	ft_free(&minishell.global);
-	ft_free(&minishell.local);
-	return (exit_status(0, FALSE));
+	return (ft_free_all(&minishell), close_fds(&minishell), 0);
 }

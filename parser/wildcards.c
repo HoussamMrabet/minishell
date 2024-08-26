@@ -6,70 +6,42 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 16:34:06 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 12:35:03 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/25 17:11:18 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_bool	file_match(char *token, const char *file)//
-{
-	int	i;
-	int	j;
-
-	(1) && (i = 0, j = 0);
-	while (token[i] || file[i + j])
-	{
-		if (token[i] != '*' && (token[i] != file[i + j]))
-			return (FALSE);
-		else if (token[i] == '*')
-		{
-			if (token[i] == '*' && !file[i + j])
-				return (TRUE);
-			i++;
-			while (file[i + j])
-			{
-				if (file[i + j] == token[i])
-					break ;
-				j++;
-			}
-			if (!file[i + j] && token[i])
-				return (FALSE);
-		}
-		i++;
-	}
-	return (TRUE);
-}
-
-static char	*get_wild_files(t_minishell *minishell, char *token)
+static char	*get_wild_files(t_minishell *m, char *token)
 {
 	char			*res;
 	DIR				*my_dir;
 	struct dirent	*files;
 
-	res = ft_strdup("", &minishell->local);
-	my_dir = opendir(get_env_value(minishell, "PWD"));
+	res = ft_strdup("", m, &m->local);
+	my_dir = opendir(get_env_value(m, "PWD"));
 	if (my_dir == NULL)
-	{
-		perror("Unable to open directory");
-		return (NULL);
-	}
+		return (perror("Unable to open directory"), ft_exit(NULL, 1, m), NULL);
 	while (TRUE)
 	{
 		files = readdir(my_dir);
 		if (!files)
 			break ;
-		if (file_match(token, files->d_name))
+		if (file_match(m, token, files->d_name))
 		{
-			res = ft_strjoin(res, " ", &minishell->local);
-			res = ft_strjoin(res, files->d_name, &minishell->local);
+			if (files->d_name[0] == '.' && token[0] != '.')
+				continue ;
+			res = ft_strjoin(res, "\002", m, &m->local);
+			res = ft_strjoin(res, files->d_name, m, &m->local);
 		}
 	}
 	closedir(my_dir);
+	if (!res[0])
+		return (ft_strdup(token, m, &m->local));
 	return (res);
 }
 
-static char	*get_wildcards(t_minishell *minishell, char *token)
+static char	*get_wildcards(t_minishell *m, char *token)
 {
 	size_t	i;
 	char	*wildcard;
@@ -77,35 +49,69 @@ static char	*get_wildcards(t_minishell *minishell, char *token)
 	i = 0;
 	wildcard = token;
 	if (!ft_strchr(wildcard, '/'))
-		return (get_wild_files(minishell, token));
+		return (ft_strtrim(m, get_wild_files(m, token), "	 \002"));
 	return (token);
 }
 
-void	ft_wildcards(t_minishell *minishell)
+static void	split_files(t_minishell *m, t_tokenizer **tokens)
+{
+	t_tokenizer	*o;
+	t_tokenizer	*token;
+	t_tokenizer	*new;
+	char		**files;
+	int			i;
+
+	files = ft_split_local((*tokens)->token, '\002', m);
+	(1) && (token = (*tokens)->next, o = *tokens, i = 0);
+	while (files[i])
+	{
+		if (i == 0)
+			(*tokens)->token = ft_strdup(files[i], m, &m->local);
+		else
+		{
+			new = ft_malloc(m, &m->local, sizeof(t_tokenizer));
+			(1) && (new->amb = o->amb, new->type = SPACES, new->lvl = o->lvl);
+			new->token = ft_strdup(" ", m, &m->local);
+			(1) && (new->next = token, (*tokens)->next = new, *tokens = new);
+			new = ft_malloc(m, &m->local, sizeof(t_tokenizer));
+			(1) && (new->amb = o->amb, new->type = o->type, new->lvl = o->lvl);
+			new->token = ft_strdup(files[i], m, &m->local);
+			(1) && (new->next = token, (*tokens)->next = new, *tokens = new);
+		}
+		i++;
+	}
+}
+
+void	ft_wildcards(t_minishell *minishell, t_tokenizer **token)
 {
 	t_tokenizer	*tokens;
 
-	tokens = minishell->tokens;
+	tokens = *token;
 	while (tokens)
 	{
 		if (tokens->type == WILD_CARD)
+		{
 			tokens->token = get_wildcards(minishell, tokens->token);
+			if (ft_strchr(tokens->token, '\002'))
+				tokens->amb = TRUE;
+			split_files(minishell, &tokens);
+		}
 		tokens = tokens->next;
 	}
 }
 
-void	merge_wildcards(t_minishell *minishell)
+void	merge_wildcards(t_minishell *minishell, t_tokenizer **tokens)
 {
 	t_tokenizer	*token;
 
-	token = minishell->tokens;
+	token = *tokens;
 	while (token)
 	{
 		if (token->type == CMD && token->next
 			&& token->next->type == WILD_CARD)
 		{
 			token->token = ft_strjoin(token->token,
-					token->next->token, &minishell->local);
+					token->next->token, minishell, &minishell->local);
 			token->next = token->next->next;
 		}
 		token = token->next;

@@ -6,28 +6,48 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:11:51 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 20:55:36 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/25 12:00:51 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_builtins(t_minishell *minishell, char *cmd)
+static int	built_in_exec(t_minishell *minishell, t_exec *tree)
 {
-	char	**splited_cmd;
+	t_tokenizer	*token;
 
-	splited_cmd = ft_split(cmd, '\n', &minishell->local);
-	if (!splited_cmd)
-		ft_exit("Allocation error", 1, minishell);
-	if (!ft_strcmp(splited_cmd[0], "env"))
-		return (ft_env(minishell), 0);
-	else if (!ft_strcmp(splited_cmd[0], "echo"))
-		return (ft_echo(minishell, cmd), 0);
-	else if (!ft_strcmp(splited_cmd[0], "export"))
-		return (ft_export(minishell, cmd), 0);
-	else if (!ft_strcmp(splited_cmd[0], "unset"))
-		return (ft_unset(minishell, cmd), 0);
-	else if (!ft_strcmp(splited_cmd[0], "cd"))
-		return (ft_cd(minishell, cmd), 0);
+	token = tree->tokens;
+	(token && token->type == SPACES) && (token = token->next);
+	if (!token || token->type == SPACES)
+		return (1);
+	if (token && !ft_strcmp(token->token, "env"))
+		return (ft_env(minishell, tree), 0);
+	else if (token && !ft_strcmp(token->token, "echo"))
+		return (ft_echo(minishell, tree), 0);
+	else if (token && !ft_strcmp(token->token, "pwd"))
+		return (exit_status(0, TRUE), ft_pwd(minishell, tree), 0);
+	else if (token && !ft_strcmp(token->token, "export"))
+	{
+		exit_status(0, TRUE);
+		return (ft_export(minishell, tree), 0);
+	}
+	else if (token && !ft_strcmp(token->token, "unset"))
+		return (ft_unset(minishell, tree), 0);
+	else if (token && !ft_strcmp(token->token, "cd"))
+		return (exit_status(0, TRUE), ft_cd(minishell, tree), 0);
+	else if (token && !ft_strcmp(token->token, "exit"))
+		return (ft_exit_builtin(minishell, tree), 0);
 	return (1);
+}
+
+int	check_builtins(t_minishell *minishell, t_exec *tree)
+{
+	int	res;
+
+	res = built_in_exec(minishell, tree);
+	if (tree->fdin != 0 && res == 0)
+		close(tree->fdin);
+	if (tree->fdout != 1 && res == 0)
+		close(tree->fdout);
+	return (res);
 }

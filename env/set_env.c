@@ -6,47 +6,47 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 18:56:41 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 12:29:11 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/07/08 14:06:26 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	add_fake_env_value(t_minishell *minishell, char *var, char *val)
+void	add_fake_env_value(t_minishell *m, char *var, char *val)
 {
 	char	**env;
 	char	**new_env;
 	int		i;
 
 	i = 0;
-	env = minishell->fake_env;
+	env = m->fake_env;
 	while (env[i])
 		i++;
-	new_env = ft_malloc(&minishell->global, sizeof(char *) * (i + 2));
+	new_env = ft_malloc(m, &m->global, sizeof(char *) * (i + 2));
 	i = 0;
 	while (env[i])
 	{
 		new_env[i] = env[i];
 		i++;
 	}
-	new_env[i] = ft_strjoin(var, "=", &minishell->local);
-	new_env[i] = ft_strjoin(new_env[i], val, &minishell->global);
+	new_env[i] = ft_strjoin(var, "=", m, &m->local);
+	new_env[i] = ft_strjoin(new_env[i], val, m, &m->global);
 	i++;
 	new_env[i] = NULL;
-	minishell->fake_env = new_env;
+	m->fake_env = new_env;
 }
 
-void	add_env_value(t_minishell *minishell, char *var, char *val)
+void	add_env_value(t_minishell *m, char *var, char *val)
 {
 	char	**env;
 	char	**new_env;
 	int		i;
 
 	i = 0;
-	env = minishell->env;
+	env = m->env;
 	while (env[i])
 		i++;
-	new_env = ft_malloc(&minishell->global, sizeof(char *) * (i + 2));
+	new_env = ft_malloc(m, &m->global, sizeof(char *) * (i + 2));
 	i = 0;
 	while (env[i])
 	{
@@ -54,15 +54,15 @@ void	add_env_value(t_minishell *minishell, char *var, char *val)
 		i++;
 	}
 	if (val[0] == '\002')
-		new_env[i] = ft_strdup(var, &minishell->global);
+		new_env[i] = ft_strdup(var, m, &m->global);
 	else
 	{
-		new_env[i] = ft_strjoin(var, "=", &minishell->local);
-		new_env[i] = ft_strjoin(new_env[i], val, &minishell->global);
+		new_env[i] = ft_strjoin(var, "=", m, &m->local);
+		new_env[i] = ft_strjoin(new_env[i], val, m, &m->global);
 	}
 	new_env[++i] = NULL;
-	minishell->env = new_env;
-	sort_env(minishell->env);
+	m->env = new_env;
+	sort_env(m->env);
 }
 
 void	set_env_value(t_minishell *minishell, char *env, char *value)
@@ -79,10 +79,8 @@ void	set_env_value(t_minishell *minishell, char *env, char *value)
 	}
 	if (value[0] != '\002')
 	{
-		minishell->env[i] = ft_malloc(&minishell->global,
+		minishell->env[i] = ft_malloc(minishell, &minishell->global,
 				sizeof(char) * (ft_strlen(env) + ft_strlen(value) + 2));
-		if (!minishell->env[i])
-			ft_exit("Allocation error", 1, minishell);
 		ft_strlcpy(minishell->env[i], env, ft_strlen(env) + 1);
 		ft_strlcat(minishell->env[i], "=", ft_strlen(minishell->env[i]) + 2);
 		ft_strlcat(minishell->env[i], value,
@@ -106,10 +104,8 @@ void	set_fake_env_value(t_minishell *minishell, char *env, char *value)
 	}
 	if (value[0] != '\002')
 	{
-		minishell->fake_env[i] = ft_malloc(&minishell->global,
+		minishell->fake_env[i] = ft_malloc(minishell, &minishell->global,
 				sizeof(char) * (ft_strlen(env) + ft_strlen(value) + 2));
-		if (!minishell->fake_env[i])
-			ft_exit("Allocation error", 1, minishell);
 		ft_strlcpy(minishell->fake_env[i],
 			env, ft_strlen(env) + 1);
 		ft_strlcat(minishell->fake_env[i],

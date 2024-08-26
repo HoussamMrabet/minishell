@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_global.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/05 17:29:54 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/05 17:30:40 by hmrabet          ###   ########.fr       */
+/*   Created: 2024/07/08 18:46:42 by hmrabet           #+#    #+#             */
+/*   Updated: 2024/07/08 18:46:44 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	words_len(char *s, char c, int i)
 	return (l);
 }
 
-static char	**fill_arr(int w[], char *s, char **arr, t_block_memory **garbage)
+static char	**fill_arr(int w[], char *s, char **arr, t_minishell *m)
 {
 	int	i;
 	int	j;
@@ -51,7 +51,7 @@ static char	**fill_arr(int w[], char *s, char **arr, t_block_memory **garbage)
 	while (k < w[1])
 	{
 		j = 0;
-		arr[k] = (char *)ft_malloc(garbage,
+		arr[k] = (char *)ft_malloc(m, &m->global,
 				sizeof(char) * (words_len(s, w[0], i) + 1));
 		if (!arr[k])
 			return (NULL);
@@ -66,7 +66,7 @@ static char	**fill_arr(int w[], char *s, char **arr, t_block_memory **garbage)
 	return (arr);
 }
 
-char	**ft_split(char *s, char c, t_block_memory **garbage)
+char	**ft_split_global(char *s, char c, t_minishell *m)
 {
 	char	**arr;
 	int		words[2];
@@ -75,9 +75,9 @@ char	**ft_split(char *s, char c, t_block_memory **garbage)
 	if (!s || !s[0])
 		return (NULL);
 	words[1] = word_count(s, words[0]);
-	arr = (char **)ft_malloc(garbage, sizeof(char *) * (words[1] + 1));
+	arr = (char **)ft_malloc(m, &m->global, sizeof(char *) * (words[1] + 1));
 	if (!arr)
 		return (NULL);
-	arr = fill_arr(words, s, arr, garbage);
+	arr = fill_arr(words, s, arr, m);
 	return (arr);
 }

@@ -3,71 +3,82 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 05:25:47 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 20:47:24 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/25 16:48:31 by mel-hamd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_syntax(char *var)
+static t_bool	valid_identifier(char *identifier)
 {
 	int	i;
+	int	j;
 
 	i = 0;
-	if (!var[i] || (!ft_isal(var[i]) && var[i] != '_'))
-		return (1);
-	i++;
-	while (var[i])
+	j = 0;
+	if (!ft_isal(identifier[0]) && identifier[0] != '_')
+		return (FALSE);
+	while (identifier[i])
 	{
-		if (var[i] != '_' && !ft_isalnum(var[i]))
-			return (1);
+		if (!ft_isalnum(identifier[i]) && identifier[i] != '_')
+			return (FALSE);
 		i++;
 	}
-	return (0);
+	return (TRUE);
 }
 
-static void	handle_unset(t_minishell *minishell, char *splited, int *status)
+static void	handle_unset(t_exec *tree, t_minishell *m, char **id)
 {
-	if (splited[0] == 2)
-		splited[0] = '\0';
-	if (!check_syntax(splited))
+	int	i[2];
+
+	i[0] = -1;
+	while (id[++i[0]])
 	{
-		if (!ft_strcmp(splited, "PATH"))
-			minishell->paths = ft_split("empty", ':', &minishell->global);
-		remove_env(minishell, splited);
-		remove_fake_env(minishell, splited);
-	}
-	else
-	{
-		*status = 1;
-		printf("minishell: unset: `%s': not a valid identifier\n", splited);
+		if (valid_identifier(id[i[0]]))
+		{
+			if (!tree->is_pipe)
+			{
+				remove_env(m, id[i[0]]);
+				remove_fake_env(m, id[i[0]]);
+				if (!ft_strcmp(id[i[0]], "PATH"))
+					m->paths = NULL;
+			}
+		}
+		else
+		{
+			ft_putstr_fd("minishell: unset: `", 2);
+			ft_putstr_fd(id[i[0]], 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			exit_status(1, TRUE);
+		}
 	}
 }
 
-void	ft_unset(t_minishell *minishell, char *cmd)
+void	ft_unset(t_minishell *m, t_exec *tree)
 {
-	char	**splited;
-	int		i;
-	int		status;
-	char	*sub;
+	t_tokenizer	*token;
+	char		**id;
 
-	(1) && (status = 0, i = 0);
-	while (cmd[i])
+	exit_status(0, TRUE);
+	open_files(m, tree);
+	token = tree->tokens->next;
+	while (token)
 	{
-		if (cmd[i] == '\n' && (cmd[i + 1] == '\n' || !cmd[i + 1]))
-			(1) && (sub = ft_substr(&minishell->local, cmd, 0, i),
-			sub = ft_strjoin(sub, "\n\002", &minishell->local),
-			cmd = ft_strjoin(sub, cmd + i + 1, &minishell->local));
-		i++;
+		if (token->type != SPACES)
+		{
+			id = ft_split_local(token->token, '\002', m);
+			if (!id)
+			{
+				ft_putstr_fd("minishell: unset: ", 2);
+				ft_putstr_fd("`': not a valid identifier\n", 2);
+				exit_status(1, TRUE);
+			}
+			else
+				handle_unset(tree, m, id);
+		}
+		token = token->next;
 	}
-	(1) && (splited = ft_split(cmd, '\n', &minishell->local), i = 1);
-	while (splited[i])
-	{
-		handle_unset(minishell, splited[i], &status);
-		i++;
-	}
-	exit_status(status, TRUE);
 }

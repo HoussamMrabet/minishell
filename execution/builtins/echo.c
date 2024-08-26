@@ -3,40 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 14:46:12 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 12:31:18 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/25 16:47:52 by mel-hamd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_echo(t_minishell *minishell, char *cmd)
+static t_bool	is_flag(char *token)
 {
-	char	**cmd_splited;
-	char	*res;
-	int		i;
-	t_bool	with_op;
+	int	i;
 
-	(1) && (i = 1, with_op = FALSE, res = ft_strdup("", &minishell->local));
-	cmd_splited = ft_split(cmd, '\n', &minishell->local);
-	if (!res || !cmd_splited)
-		ft_exit("Allocation error", 1, minishell);
-	if (cmd_splited[i])
+	if (token[0] != '-')
+		return (FALSE);
+	i = 1;
+	if (!token[i])
+		return (FALSE);
+	while (token[i])
 	{
-		(!ft_strcmp("-n", cmd_splited[i])) && (with_op = TRUE, i++);
-		while (cmd_splited[i])
-		{
-			(res[0]) && (res = ft_strjoin(res, " ", &minishell->local));
-			res = ft_strjoin(res, cmd_splited[i], &minishell->local);
-			if (!res)
-				ft_exit("Allocation error", 1, minishell);
-			i++;
-		}
+		if (token[i] != 'n')
+			return (FALSE);
+		i++;
 	}
-	(!with_op) && (res = ft_strjoin(res, "\n", &minishell->local));
-	if (!res)
-		ft_exit("Allocation error", 1, minishell);
-	ft_putstr_fd(res, 1);
+	return (TRUE);
+}
+
+void	ft_echo(t_minishell *m, t_exec *tree)
+{
+	char		*res;
+	t_tokenizer	*token;
+	t_bool		with_op;
+
+	open_files(m, tree);
+	token = tree->tokens->next;
+	(1) && (with_op = FALSE, res = ft_strdup("", m, &m->local));
+	(token && token->type == SPACES) && (token = token->next);
+	if (token && (!ft_strcmp("-n", token->token) || is_flag(token->token)))
+		(1) && (with_op = TRUE, token = token->next);
+	while (token && (token->type == SPACES
+			|| !ft_strcmp("-n", token->token) || is_flag(token->token)))
+		token = token->next;
+	while (token)
+	{
+		if (!(!res[0] && token->type == SPACES))
+			res = ft_strjoin(res, token->token, m, &m->local);
+		token = token->next;
+	}
+	(!with_op) && (res = ft_strjoin(res, "\n", m, &m->local));
+	ft_putstr_fd(res, tree->fdout);
+	exit_status(0, TRUE);
 }

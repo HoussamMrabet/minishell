@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 11:31:22 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/09 16:37:01 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/07/09 05:38:25 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,85 +27,12 @@ void	add_token(t_tokenizer **tokens, t_tokenizer *new)
 	}
 }
 
-static t_bool	check_content(char *input, int i)
-{
-	t_bool	is_empty;
-
-	is_empty = TRUE;
-	while (input[++i])
-	{
-		if (input[i] == ')')
-			break ;
-		if (input[i] != ' ' && input[i] != '\t')
-			is_empty = FALSE;
-	}
-	return (is_empty);
-}
-
-static t_bool	format_invalid(char *input)
-{
-	t_bool	q[2];
-	int		i[3];
-
-	(1) && (i[2] = 0, q[0] = FALSE, q[1] = FALSE, i[0] = 0, i[1] = -1);
-	while (input[++i[1]])
-	{
-		if (input[i[1]] == '\'')
-		{
-			if (q[0])
-				q[0] = FALSE;
-			else if (!q[0] && !q[1])
-				q[0] = TRUE;
-		}
-		else if (input[i[1]] == '"')
-		{
-			if (q[1])
-				q[1] = FALSE;
-			else if (!q[0] && !q[1])
-				q[1] = TRUE;
-		}
-		(input[i[1]] == '(' && !q[0] && !q[1])
-			&& (i[0]++, i[2] = check_content(input, i[1]));
-		(input[i[1]] == ')' && !q[0] && !q[1]) && (i[0]--);
-	}
-	return (q[0] || q[1] || i[0] || i[2]);
-}
-
-int	check_op_syntax(t_minishell *minishell)
-{
-	t_tokenizer	*t;
-
-	t = minishell->tokens;
-	while (t)
-	{
-		if (t->type == PIPE || t->type == OR || t->type == AND)
-		{
-			(t->next && t->next->type == SPACES) && (t = t->next);
-			if (t->next && (t->next->type == PIPE || t->next->type == OR
-					|| t->next->type == AND))
-				return (1);
-		}
-		else if (t->type == IN_RED || t->type == OUT_RED
-			|| t->type == DELIMITER || t->type == APPEND)
-		{
-			(t->next && t->next->type == SPACES) && (t = t->next);
-			if (t->next && (t->next->type == PIPE || t->next->type == OR
-					|| t->next->type == AND || t->next->type == IN_RED
-					|| t->next->type == OUT_RED || t->next->type == DELIMITER
-					|| t->next->type == APPEND))
-				return (1);
-		}
-		t = t->next;
-	}
-	return (0);
-}
-
 int	lexer(t_minishell *minishell, char *input)
 {
 	int			i;
 
 	(1) && (i = -1, minishell->tokens = NULL);
-	if (format_invalid(input) || syntax_invalid(input))
+	if (format_invalid(minishell, input) || syntax_invalid(minishell, input))
 		return (1);
 	while (input[++i])
 	{

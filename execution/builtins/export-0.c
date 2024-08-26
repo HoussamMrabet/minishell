@@ -3,110 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   export-0.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:50:25 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/05/12 12:23:29 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/25 16:35:50 by mel-hamd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_syntax(char *var)
-{
-	int	i;
-
-	i = 0;
-	if (!var[i] || (!ft_isal(var[i]) && var[i] != '_'))
-		return (1);
-	i++;
-	while (var[i] && var[i] != '=')
-	{
-		if ((var[i] != '_' && var[i] != '+' && !ft_isalnum(var[i]))
-			|| (var[i] == '+' && var[i + 1] != '='))
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-static int	export_print(char	**env)
+static int	export_print(char	**env, t_exec *tree)
 {
 	int		i;
 	int		j;
-	t_bool	bool;
 
-	(1) && (i = 0, j = 0, bool = FALSE);
+	(1) && (i = 0, j = 0);
 	while (env[i])
 	{
 		j = 0;
-		printf("declare -x ");
-		while (env[i][j])
+		ft_putstr_fd("declare -x ", tree->fdout);
+		while (env[i][j] && env[i][j] != '=')
+			ft_putchar_fd(env[i][j++], tree->fdout);
+		if (env[i][j] && env[i][j] == '=')
 		{
-			printf("%c", env[i][j]);
-			if (env[i][j] == '=')
-				printf("\"");
-			(env[i][j] == '=') && (bool = !bool);
-			if (bool && !env[i][j + 1])
-				printf("\"");
-			(bool && !env[i][j + 1]) && (bool = !bool);
-			j++;
+			ft_putstr_fd("=\"", tree->fdout);
+			if (env[i][++j])
+				ft_putstr_fd(env[i] + j, tree->fdout);
+			ft_putstr_fd("\"", tree->fdout);
 		}
-		printf("\n");
+		ft_putstr_fd("\n", tree->fdout);
 		i++;
 	}
 	return (0);
 }
 
-static int	handle_export(t_minishell *minishell, char *splited)
+void	ft_export(t_minishell *m, t_exec *tree)
 {
-	int	i;
+	t_tokenizer	*token;
+	char		**cmd;
 
-	i = 0;
-	if (!ft_strchr(splited, '='))
-		set_env_value(minishell, splited, "\002");
-	else
+	open_files(m, tree);
+	(1) && (token = tree->tokens, token = token->next);
+	(token && token->type == SPACES) && (token = token->next);
+	(!token) && (export_print(m->env, tree));
+	while (token)
 	{
-		while (splited[i])
+		if (token->type != SPACES)
 		{
-			if (splited[i] == '+' && splited[i + 1] == '=')
+			cmd = ft_split_local(token->token, '\002', m);
+			if (!cmd && token->type != TEXT)
 			{
-				concat_env(minishell, splited);
-				break ;
+				ft_putstr_fd("minishell: export: ", 2);
+				ft_putstr_fd("`': not a valid identifier\n", 2);
+				exit_status(1, TRUE);
 			}
-			else if (splited[i] == '=')
-				assign_env(minishell, splited);
-			i++;
+			else
+				handle_export(tree, m, cmd);
 		}
+		token = token->next;
 	}
-	return (0);
-}
-
-void	ft_export(t_minishell *m, char *cmd)
-{
-	char	**splited;
-	int		i[2];
-	char	*sub;
-
-	(1) && (i[1] = 0, i[0] = -1);
-	while (cmd[++i[0]])
-		if (cmd[i[0]] == '\n' && (cmd[i[0] + 1] == '\n' || !cmd[i[0] + 1]))
-			(1) && (sub = ft_substr(&m->local, cmd, 0, i[0]),
-				sub = ft_strjoin(sub, "\n\002", &m->local),
-				cmd = ft_strjoin(sub, cmd + i[0] + 1, &m->local));
-	(1) && (splited = ft_split(cmd, '\n', &m->local), i[0] = 1);
-	(!splited[i[0]]) && export_print(m->env);
-	if (splited[i[0]])
-	{
-		while (splited[i[0]])
-		{
-			(splited[i[0]][0] == 2) && (splited[i[0]][0] = '\0');
-			(!check_syntax(splited[i[0]])) && (handle_export(m, splited[i[0]]));
-			(check_syntax(splited[i[0]])) && (i[1]
-				= printf("minishell: export: `%s': not a valid identifier\n",
-					splited[i[0]]), i[1] = 1);
-			i[0]++;
-		}
-	}
-	exit_status(i[1], TRUE);
 }
