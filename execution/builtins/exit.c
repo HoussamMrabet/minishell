@@ -6,7 +6,7 @@
 /*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 11:03:36 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/25 16:48:09 by mel-hamd         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:00:25 by mel-hamd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,12 @@ static int	ft_exit_builtin2(t_minishell *m, t_exec *tree, t_tokenizer **tok)
 		exit_status(1, TRUE);
 		return (1);
 	}
-	else if (ft_strlen(ft_strtrim(m, (*tok)->token, " ")) >= 21
-		|| ft_atoul((*tok)->token) > LLONG_MAX)
-	{
-		if (ft_num_required(m, (*tok)->token, tree))
-			return (1);
-	}
+	// else if (ft_strlen(ft_strtrim(m, (*tok)->token, " ")) >= 21
+	// 	|| ft_atoul((*tok)->token) > LLONG_MAX)
+	// {
+	// 	if (ft_num_required(m, (*tok)->token, tree))
+	// 		return (1);
+	// }
 	return (0);
 }
 

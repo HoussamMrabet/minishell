@@ -6,7 +6,7 @@
 /*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 14:46:12 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/25 16:47:52 by mel-hamd         ###   ########.fr       */
+/*   Updated: 2024/08/26 16:24:49 by mel-hamd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ void	ft_echo(t_minishell *m, t_exec *tree)
 		token = token->next;
 	while (token)
 	{
-		if (!(!res[0] && token->type == SPACES))
+		if (token->type == SPACES)
+			res = ft_strjoin(res, " ", m, &m->local);
+		else if (!(!res[0] && token->type == SPACES))
 			res = ft_strjoin(res, token->token, m, &m->local);
 		token = token->next;
 	}

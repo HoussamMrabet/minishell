@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 14:11:27 by mel-hamd          #+#    #+#             */
-/*   Updated: 2024/08/25 19:37:48 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/26 17:07:44 by mel-hamd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ static void	is_directory(char *path, t_minishell *mini)
 
 	if (stat(path, &path_stat))
 	{
-		perror("minishell: stat");
-		ft_exit(NULL, 1, mini);
+		ft_putstr_fd("minishell: ", 2);
+		perror(path);
+		ft_exit(NULL, 127, mini);
 	}
 	if (S_ISDIR(path_stat.st_mode))
 	{
