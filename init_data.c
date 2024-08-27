@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 10:18:07 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/27 07:21:50 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/27 09:04:44 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	ft_get_level(t_minishell *minishell)
 	char	*tmp;
 
 	tmp = get_env_value(minishell, "SHLVL");
-	if (!tmp || !tmp[0])
+	if (!tmp || !tmp[0] || ft_atoi(tmp) < 0)
 	{
 		lvl = 0;
 		tmp = ft_itoa(minishell, &minishell->local, 0);

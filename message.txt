@@ -144,39 +144,19 @@ ls |
 ## Errors to handle:
 ### - possible segv in lexer
 
-### - cd $PWD hi
-
-### - exit MALLONG || exit MINLLONG
 
 ### - echo < infile
 ###   echo < infiel | echo 42
 
 ### - echo 42 > /DIR/outfile | echo 1337
 
-## $"USER" in heredoc should exit with $USER not $$USER
+## $"$USER" in heredoc should exit with $USER not $$USER
 
 ## echo he$$-ltest$USER-$1fds"hello$$-test$1fds$'tess$"'hello$$-test$1fds$"tess$'
 
-## export SHLVL=-21 => set 0 
-
 ## echo "hello$$-test$1fds$'tess$"
 
-## ls << "" | <<
-
-##  << a cat
-
-``minishell >$ << a cat
-> '$USER'
-> a
-zsh: segmentation fault  ./minishell``
-
-``minishell >$ cat << a
-> $dsfds
-> a
-zsh: segmentation fault  ./minishell``
+## ls << "" | << \\ SEGV
 
 
-#echo bonjour > test\ 1
 echo 2 >> out1 > out2
-
- cd -
