@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 09:53:45 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/26 05:53:16 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/27 07:18:24 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ void	init_default_env(t_minishell *m, char **env)
 	{
 		m->env[i] = ft_strdup(env[i], m, &m->global);
 		m->fake_env[i] = ft_strdup(env[i], m, &m->global);
+		if (starts_with("OLDPWD", env[i]))
+		{
+			m->env[i] = ft_strdup("OLDPWD", m, &m->global);
+			m->fake_env[i] = ft_strdup("OLDPWD", m, &m->global);
+		}
 		i++;
 	}
 	m->env[i] = NULL;
