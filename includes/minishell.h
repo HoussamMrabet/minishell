@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/26 18:30:35 by mel-hamd         ###   ########.fr       */
+/*   Updated: 2024/08/28 13:49:25 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,7 @@ void		remove_quotes(t_minishell *minishell, char **tokens, char sign);
 void		replace_expand_values(t_minishell *minishell, t_tokenizer **tokens);
 void		handle_quote_expand(t_minishell *minishell, char **tokens);
 void		handle_text_expand(t_minishell *m, t_tokenizer *t, char **ts);
+char		*handle_text_expand5(t_minishell *m, char **t, char **s, int *i);
 
 // exit
 int			exit_status(int new_status, t_bool to_set);

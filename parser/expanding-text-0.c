@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 10:45:53 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/27 07:20:01 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/28 13:44:49 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,11 @@ static void	handle_text_expand2(t_minishell *m, char **tok, char **val, int *i)
 	else if ((*tok)[(*i) + 1] == '_' && !(*tok)[(*i) + 2])
 		(1) && (*val = ft_strjoin((*val), m->_, m, &m->local), (*i)++);
 	else if ((*tok)[(*i) + 1] >= '0' && (*tok)[(*i) + 1] <= '9')
-		(1) && (*val = ft_strjoin((*val), (*tok) + 2, m, &m->local)
-				, (*i) += ft_strlen(*tok) - 1);
+	{
+		*i += 1;
+		*val = ft_strjoin((*val), handle_text_expand5(m, tok, &str, i),
+				m, &m->local);
+	}
 	else if (!(*tok)[(*i) + 1] || (!ft_isalnum((*tok)[(*i) + 1])
 			&& (*tok)[(*i) + 1] != '_'))
 		(*val) = ft_strjoin((*val), "", m, &m->local);

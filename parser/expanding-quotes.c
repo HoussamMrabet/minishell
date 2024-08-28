@@ -6,39 +6,68 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 10:45:28 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/25 06:28:32 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/28 13:47:58 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	handle_quote_expand2(t_minishell *m, char **tok, char **val, int *i)
+static void	handle_quote_expand4(t_minishell *m, char **tok, int *i, char	**v)
 {
 	int		j;
-	char	*tmp[2];
+	char	*tmp;
+	char	*str;
+
+	j = 1;
+	if ((*tok + (*i))[j] == '_' || ft_isal((*tok + (*i))[j]))
+	{
+		j++;
+		while ((*tok + (*i))[j] == '_' || ft_isalnum((*tok + (*i))[j]))
+			j++;
+	}
+	(1) && (j--, tmp = ft_substr(m, ((*tok + (*i)) + 1), 0, j));
+	str = get_env_value(m, tmp);
+	(!str) && (str = ft_strdup("", m, &m->local));
+	(1) && (*v = ft_strjoin((*v), str, m, &m->local), (*i) += j);
+}
+
+static char	*handle_quote_expand3(t_minishell *m, char **tok, int *i)
+{
+	int		j;
+	char	*str;
+
+	j = 1;
+	if ((*tok + (*i))[j] == '_' || ft_isal((*tok + (*i))[j]))
+	{
+		j++;
+		while ((*tok + (*i))[j] == '_' || ft_isalnum((*tok + (*i))[j]))
+			j++;
+	}
+	(1) && (j--, str = ft_substr(m, ((*tok + (*i)) + 1), 0, j));
+	(*i) += j;
+	return (str);
+}
+
+static void	handle_quote_expand2(t_minishell *m, char **tok, char **val, int *i)
+{
+	char	*tmp;
 
 	if ((*tok)[(*i) + 1] == '?')
-		(1) && (tmp[1] = ft_itoa(m, &m->local, exit_status(0, FALSE)),
-			*val = ft_strjoin((*val), tmp[1], m, &m->local), (*i)++);
+		(1) && (tmp = ft_itoa(m, &m->local, exit_status(0, FALSE)),
+			*val = ft_strjoin((*val), tmp, m, &m->local), (*i)++);
 	else if ((*tok)[(*i) + 1] == '_' && !(*tok)[(*i) + 2])
 		(1) && (*val = ft_strjoin((*val), m->_, m, &m->local), (*i)++);
 	else if ((*tok)[(*i) + 1] == '"' || (!ft_isalnum((*tok)[(*i) + 1])
 			&& (*tok)[(*i) + 1] != '_'))
 		(*val) = ft_strjoin((*val), "$", m, &m->local);
-	else
+	else if ((*tok)[(*i) + 1] >= '0' && (*tok)[(*i) + 1] <= '9')
 	{
-		j = 1;
-		if ((*tok + (*i))[j] == '_' || ft_isal((*tok + (*i))[j]))
-		{
-			j++;
-			while ((*tok + (*i))[j] == '_' || ft_isalnum((*tok + (*i))[j]))
-				j++;
-		}
-		(1) && (j--, tmp[1] = ft_substr(m, ((*tok + (*i)) + 1), 0, j));
-		tmp[0] = get_env_value(m, tmp[1]);
-		(!tmp[0]) && (tmp[0] = ft_strdup("", m, &m->local));
-		(1) && (*val = ft_strjoin((*val), tmp[0], m, &m->local), (*i) += j);
+		*i += 1;
+		*val = ft_strjoin((*val), handle_quote_expand3(m, tok, i),
+				m, &m->local);
 	}
+	else
+		handle_quote_expand4(m, tok, i, val);
 }
 
 void	handle_quote_expand(t_minishell *minishell, char **tokens)

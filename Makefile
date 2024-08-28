@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+         #
+#    By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/04 16:56:33 by hmrabet           #+#    #+#              #
-#    Updated: 2024/08/26 18:30:52 by mel-hamd         ###   ########.fr        #
+#    Updated: 2024/08/28 13:45:51 by hmrabet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRCS = main.c init_data.c exit_status.c \
 		env/init_env.c env/get_env.c env/set_env.c env/remove_env.c env/env_utils.c \
 		signals/signals-0.c signals/signals-1.c \
 		lexer/lexer-0.c lexer/lexer-1.c lexer/lexer-2.c lexer/lexer-3.c lexer/lexer-4.c lexer/here_doc_err.c lexer/validate_format.c lexer/check_op_syntax.c \
-		parser/parser-0.c parser/parser-1.c parser/parser-2.c parser/expanding.c parser/expanding-text.c parser/expanding-quotes.c parser/wildcards.c parser/wildcard_match_pattern.c \
+		parser/parser-0.c parser/parser-1.c parser/parser-2.c parser/expanding.c parser/expanding-text-0.c parser/expanding-text-1.c parser/expanding-quotes.c parser/wildcards.c parser/wildcard_match_pattern.c \
 		execution/heredoc.c \
 		execution/builtins/builtins.c \
 		execution/builtins/cd.c \
