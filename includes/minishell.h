@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:52:05 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/28 13:49:25 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/29 18:14:33 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ typedef struct s_minishell
 	char				*_;
 	char				*pwd;
 	int					lvl;
-	int					max_fd;
+	t_bool				is_empty;
 	t_syntax_err		err;
 	t_tokenizer			*tokens;
 	t_exec				*tree;
@@ -160,7 +160,7 @@ int			ft_strcmp(char *s1, char *s2);
 char		**ft_split_local(char *s, char c, t_minishell *m);
 char		**ft_split_global(char *s, char c, t_minishell *m);
 t_tokenizer	*token_dup(t_minishell *minishell, t_tokenizer *token);
-void		close_fds(t_minishell *minishell);
+void		close_fds(void);
 char		*ft_strtrim(t_minishell *mini, char *s1, char *set);
 void		reverse_str(char **str);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -215,6 +215,7 @@ t_bool		format_invalid(t_minishell *m, char *input);
 int			parser(t_minishell *minishell);
 void		merge_delimiters(t_minishell *m, t_tokenizer **tokens);
 void		remove_quotes(t_minishell *minishell, char **tokens, char sign);
+void		fix_delimiter(t_minishell *m, t_tokenizer **tokens);
 
 // expanding
 void		replace_expand_values(t_minishell *minishell, t_tokenizer **tokens);

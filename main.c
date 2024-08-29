@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:51:44 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/25 16:15:13 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/29 19:07:40 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	main(int c, char **v, char **env)
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, handle_sigint);
 		ft_free(&minishell.local);
-		close_fds(&minishell);
+		close_fds();
 		minishell.input = ft_readline(&minishell, "minishell >$ ", TRUE);
 		if (!minishell.input)
 			return (write(1, "\x1B[Fminishell >$ exit\n", 21),
@@ -74,5 +74,5 @@ int	main(int c, char **v, char **env)
 		}
 		tcsetattr(STDIN_FILENO, TCSANOW, &minishell.termios);
 	}
-	return (ft_free_all(&minishell), close_fds(&minishell), 0);
+	return (ft_free_all(&minishell), close_fds(), 0);
 }

@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 06:41:00 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/25 07:03:39 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/29 18:14:05 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,12 +111,11 @@ int	parser(t_minishell *minishell)
 	update_tokens(minishell);
 	token = minishell->tokens;
 	set_tokens_level(&token);
+	fix_delimiter(minishell, &token);
 	if (here_doc(minishell))
 		return (1);
 	minishell->tree = ft_malloc(minishell, &minishell->local, sizeof(t_exec));
-	tree = minishell->tree;
-	tree->tokens = token;
-	tree->type = CMD;
+	(1) && (tree = minishell->tree, tree->tokens = token, tree->type = CMD);
 	tree->fdin = 0;
 	tree->fdout = 1;
 	tree->iofiles = NULL;

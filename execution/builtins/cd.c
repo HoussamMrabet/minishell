@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 20:54:30 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/26 17:47:17 by mel-hamd         ###   ########.fr       */
+/*   Updated: 2024/08/29 17:39:48 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,21 @@ static int	handle_dash(t_minishell *m, char **target, t_bool *oldpath)
 	return (0);
 }
 
+static void	ft_handle_cd(t_minishell *m, t_exec *tree,
+		char *target, t_bool oldpath)
+{
+	if (!tree->is_pipe && chdir(target))
+	{
+		exit_status(1, TRUE);
+		if (!m->home)
+			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+		else
+			perror("minishell: cd");
+	}
+	else
+		change_values(tree, m, target, oldpath);
+}
+
 void	ft_cd(t_minishell *m, t_exec *tree)
 {
 	char		*target;
@@ -72,11 +87,5 @@ void	ft_cd(t_minishell *m, t_exec *tree)
 	}
 	else
 		target = ft_strdup(tok->token, m, &m->local);
-	if (!tree->is_pipe && chdir(target))
-	{
-		exit_status(1, TRUE);
-		perror("minishell: cd");
-	}
-	else
-		change_values(tree, m, target, oldpath);
+	ft_handle_cd(m, tree, target, oldpath);
 }

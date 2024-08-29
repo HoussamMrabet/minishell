@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expanding-text.c                                   :+:      :+:    :+:   */
+/*   expanding-text-0.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 10:45:53 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/28 13:44:49 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/29 17:27:09 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ static void	handle_text_expand2(t_minishell *m, char **tok, char **val, int *i)
 		*val = ft_strjoin((*val), handle_text_expand5(m, tok, &str, i),
 				m, &m->local);
 	}
+	else if ((*tok)[(*i) + 1] && (!ft_isalnum((*tok)[(*i) + 1])
+			&& (*tok)[(*i) + 1] != '_'))
+		(1) && (*val = ft_strjoin((*val), "$", m, &m->local),
+			*val = ft_strjoin((*val), handle_text_expand5(m, tok, &str, i),
+					m, &m->local));
 	else if (!(*tok)[(*i) + 1] || (!ft_isalnum((*tok)[(*i) + 1])
 			&& (*tok)[(*i) + 1] != '_'))
 		(*val) = ft_strjoin((*val), "", m, &m->local);

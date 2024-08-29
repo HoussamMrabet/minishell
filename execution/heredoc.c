@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:11:00 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/29 10:56:20 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/29 14:08:26 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static void	here_doc2(t_minishell *m, t_tokenizer *token, char *file_c)
 	fd = open(file, O_RDWR | O_CREAT, 0644);
 	if (fd == -1)
 		ft_exit("minishell: open failed", 1, m);
-	m->max_fd = fd;
 	if (token->type == DELIM)
 	{
 		handle_text_expand(m, NULL, &file_c);
@@ -61,7 +60,6 @@ static void	here_doc2(t_minishell *m, t_tokenizer *token, char *file_c)
 	fd = open(file, O_RDONLY, 0644);
 	if (fd == -1)
 		ft_exit("minishell: open failed", 1, m);
-	m->max_fd = fd;
 	unlink(file);
 	(1) && (token->token = ft_itoa(m, &m->local, fd), file_c = NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 05:25:47 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/26 17:48:23 by mel-hamd         ###   ########.fr       */
+/*   Updated: 2024/08/29 17:32:47 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ static void	handle_unset(t_exec *tree, t_minishell *m, char **id)
 				remove_fake_env(m, id[i[0]]);
 				if (!ft_strcmp(id[i[0]], "PATH"))
 					m->paths = NULL;
+				else if (!ft_strcmp(id[i[0]], "HOME"))
+					m->home = NULL;
 			}
 		}
 		else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 14:11:27 by mel-hamd          #+#    #+#             */
-/*   Updated: 2024/08/26 17:07:44 by mel-hamd         ###   ########.fr       */
+/*   Updated: 2024/08/29 19:08:03 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,11 @@ int	run_command(t_exec *tree, t_minishell *mini)
 	pid = fork();
 	fun_error(mini, pid, "fork");
 	if (pid == 0 && mini && tree)
+	{
+		if (!tree->iofiles && !tree->tokens && mini->is_empty)
+			ft_exit(NULL, exit_status(0, FALSE), mini);
 		process_code(tree, mini);
+	}
 	else
 	{
 		if (tree->fdin != 0)

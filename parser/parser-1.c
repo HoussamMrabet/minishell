@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 18:30:17 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/07/08 18:57:00 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/29 18:14:13 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,30 @@ static void	merge_delimiters2(t_minishell *m, t_tokenizer **tmp,
 		else
 			break ;
 		*tmp = (*tmp)->next;
+	}
+}
+
+void	fix_delimiter(t_minishell *m, t_tokenizer **tokens)
+{
+	t_tokenizer	*token;
+	int			i;
+
+	token = *tokens;
+	while (token)
+	{
+		if (token->type == DELIM || token->type == Q_DELIM)
+		{
+			i = 0;
+			while (token->token[i])
+			{
+				if (token->token[i] == '$' && token->token[i + 1] == '$')
+					token->token = ft_strjoin(ft_substr(m, token->token, 0, i),
+							ft_substr(m, token->token, i + 1, INT_MAX),
+							m, &m->local);
+				i++;
+			}
+		}
+		token = token->next;
 	}
 }
 

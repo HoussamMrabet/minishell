@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 18:41:01 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/26 05:40:07 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/29 14:17:31 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*ft_readline(t_minishell *minishell, char *input, t_bool add)
 		return (NULL);
 	in = ft_strdup(res, minishell, &minishell->local);
 	free(res);
-	if (add)
+	if (add && in && in[0])
 		add_history(in);
 	return (in);
 }
@@ -40,17 +40,16 @@ void	*ft_getcwd(t_minishell *minishell)
 	return (res);
 }
 
-void	close_fds(t_minishell *minishell)
+void	close_fds(void)
 {
 	int	fd;
 
-	fd = minishell->max_fd;
+	fd = OPEN_MAX;
 	while (fd >= 3)
 	{
 		close(fd);
 		fd--;
 	}
-	minishell->max_fd = 2;
 }
 
 char	*ft_strtrim(t_minishell *mini, char *s1, char *set)

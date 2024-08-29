@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 10:18:07 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/27 09:04:44 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/29 14:08:22 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static void	ft_get_level(t_minishell *minishell)
 
 void	init_data(t_minishell *minishell, char **env)
 {
-	minishell->max_fd = 2;
 	minishell->global = NULL;
 	minishell->local = NULL;
 	minishell->env = NULL;
@@ -72,6 +71,7 @@ void	init_data(t_minishell *minishell, char **env)
 	minishell->pwd = NULL;
 	minishell->custom_env = FALSE;
 	minishell->input = NULL;
+	minishell->is_empty = TRUE;
 	if (!env || !*env)
 	{
 		minishell->custom_env = TRUE;

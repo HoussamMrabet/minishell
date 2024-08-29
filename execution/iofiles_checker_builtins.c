@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 17:09:07 by mel-hamd          #+#    #+#             */
-/*   Updated: 2024/08/26 18:08:52 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/29 19:00:02 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,6 @@ static int	red_in(t_exec *tree, int *fdin)
 	return (0);
 }
 
-static int	destroy_fds(t_exec *tree, int fd0, int fd1)
-{
-	if (tree->fdout != fd1 && tree->fdout != 1)
-		return (catch_error_builtin(close(tree->fdout), NULL), 1);
-	if (tree->fdin != fd0 && tree->fdin != 0)
-		return (catch_error_builtin(close(tree->fdin), NULL), 1);
-	if (!tree->tokens)
-		return (1);
-	return (0);
-}
-
 int	open_files_builtin(t_exec *tree)
 {
 	int	fds[2];
@@ -80,7 +69,5 @@ int	open_files_builtin(t_exec *tree)
 		}
 		tree->iofiles = tree->iofiles->next;
 	}
-	if (destroy_fds(tree, fds[0], fds[1]))
-		return (1);
 	return (tree->fdin = fds[0], tree->fdout = fds[1], 0);
 }

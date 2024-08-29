@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 16:49:10 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/26 07:10:09 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/29 13:55:28 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,12 @@ void	prepare_node_for_execute(t_minishell *minishell, t_exec *node)
 	t_tokenizer	*tokens;
 
 	tokens = node->tokens;
+	if (tokens && tokens->type == SPACES)
+		node->tokens = tokens->next;
+	minishell->is_empty = FALSE;
+	tokens = node->tokens;
+	if (tokens && !ft_strtrim(minishell, tokens->token, " \t|&")[0])
+		minishell->is_empty = TRUE;
 	replace_expand_values(minishell, &tokens);
 	check_ambiguous(minishell, &tokens);
 	split_expands(minishell, &tokens);

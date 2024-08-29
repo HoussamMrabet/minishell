@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 05:39:02 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/07/15 10:32:31 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/29 17:52:30 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	check_redirections_syntax(t_minishell *m, t_tokenizer **t, int *pos)
 	if ((*t)->next && ((*t)->next->type == PIPE || (*t)->next->type == OR
 			|| (*t)->next->type == AND || (*t)->next->type == IN_RED
 			|| (*t)->next->type == OUT_RED || (*t)->next->type == DEL
-			|| (*t)->next->type == APPEND))
+			|| (*t)->next->type == APPEND || (*t)->next->type == PAR))
 		return (m->err.pos = *pos, m->err.msg = ft_strjoin(SYNTAX_MSG"`",
 				ft_strjoin((*t)->next->token, "'\n", m, &m->local), m,
 				&m->local), 1);

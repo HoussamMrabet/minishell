@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 08:10:38 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/07/16 14:00:41 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/29 14:17:03 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	ft_exit(char *msg, int status, t_minishell *minishell)
 		ft_putchar_fd('\n', 2);
 	}
 	rl_clear_history();
-	close_fds(minishell);
+	close_fds();
 	ft_free_all(minishell);
 	exit(status);
 	return (0);

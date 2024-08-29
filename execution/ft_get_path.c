@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 13:52:31 by mel-hamd          #+#    #+#             */
-/*   Updated: 2024/08/25 16:11:47 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/29 17:44:18 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,13 @@ char	*ft_get_path(t_minishell *mini, t_tokenizer *tokens)
 	char	*test;
 
 	i = 0;
-	if (!ft_strncmp(tokens->token, "./", 2))
+	if (ft_strchr(tokens->token, '/'))
 		return (tokens->token);
 	else if (!ft_strchr(tokens->token, '/')
 		&& access(tokens->token, F_OK | X_OK) == 0)
 	{
 		if (!mini->paths)
 			return (tokens->token);
-		return (NULL);
 	}
 	while (mini->paths && mini->paths[i])
 	{

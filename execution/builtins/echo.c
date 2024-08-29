@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hamd <mel-hamd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 14:46:12 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/26 17:43:29 by mel-hamd         ###   ########.fr       */
+/*   Updated: 2024/08/29 18:51:21 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ void	ft_echo(t_minishell *m, t_exec *tree)
 		token = token->next;
 	while (token)
 	{
-		if (token->type == SPACES)
+		if (token->type == SPACES && token->next)
 			res = ft_strjoin(res, " ", m, &m->local);
-		else if (!(!res[0] && token->type == SPACES))
+		else if (token->type != SPACES)
 			res = ft_strjoin(res, token->token, m, &m->local);
 		token = token->next;
 	}
