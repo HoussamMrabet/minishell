@@ -6,11 +6,24 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:11:00 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/25 19:31:19 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/29 10:56:20 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	getback_spaces(char **str)
+{
+	int	i;
+
+	i = 0;
+	while ((*str)[i])
+	{
+		if ((*str)[i] == '\002')
+			(*str)[i] = 32;
+		i++;
+	}
+}
 
 char	*get_heredoc_name(t_minishell *mini)
 {
@@ -40,7 +53,10 @@ static void	here_doc2(t_minishell *m, t_tokenizer *token, char *file_c)
 		ft_exit("minishell: open failed", 1, m);
 	m->max_fd = fd;
 	if (token->type == DELIM)
+	{
 		handle_text_expand(m, NULL, &file_c);
+		getback_spaces(&file_c);
+	}
 	write(fd, file_c, ft_strlen(file_c));
 	fd = open(file, O_RDONLY, 0644);
 	if (fd == -1)

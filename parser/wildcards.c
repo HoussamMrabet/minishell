@@ -6,7 +6,7 @@
 /*   By: hmrabet <hmrabet@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 16:34:06 by hmrabet           #+#    #+#             */
-/*   Updated: 2024/08/25 17:11:18 by hmrabet          ###   ########.fr       */
+/*   Updated: 2024/08/29 10:50:02 by hmrabet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static char	*get_wild_files(t_minishell *m, char *token)
 	struct dirent	*files;
 
 	res = ft_strdup("", m, &m->local);
-	my_dir = opendir(get_env_value(m, "PWD"));
+	my_dir = opendir(ft_getcwd(m));
 	if (my_dir == NULL)
-		return (perror("Unable to open directory"), ft_exit(NULL, 1, m), NULL);
+		return (exit_status(1, TRUE), token);
 	while (TRUE)
 	{
 		files = readdir(my_dir);
